@@ -47,13 +47,11 @@ function SignUp() {
             const { user, error } = await supabase.auth.signUp({
                 email,
                 password,
-                options: {
-                    data: {
-                        name,
-                        phone,
-                    }
-                }
-            });
+            }, {
+            data: {
+                name,
+                phone,
+            }});
 
             if (error) {
                 setError(error.message);

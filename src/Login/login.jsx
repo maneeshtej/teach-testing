@@ -32,13 +32,19 @@ function Login() {
 
       if (data && data.session) {
         const { session } = data; 
-        console.log('Logged in user:', data.user);
+        console.log('Logged in user:', data.user.email);
 
         Cookies.set('auth_token', session.access_token, {
           expires: 1, 
           path: '/',
           secure: false, 
         });
+
+        Cookies.set('email', data.user.email, {
+          expires: 1,
+          path: '/',
+          secure: false,
+        })
 
         navigate("/home");
       } else {
