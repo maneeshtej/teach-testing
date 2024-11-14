@@ -29,6 +29,7 @@ function Login() {
       if (error) throw error;
       console.log('Logged in user:', user);
       setLoading(false);
+      navigate("/home");
     } catch (err) {
       setError(err.message);
       console.log('Error:', err.message);
