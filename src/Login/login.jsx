@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabase';
 import { Link, useNavigate } from 'react-router-dom';
-import "./login.css"
+import "./login.css";
+import Cookies from 'js-cookie';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -9,27 +10,42 @@ function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const cookie = Cookies.get('auth_token');
 
-
-
-//   console.log("supabase : ", supabase)
+  useEffect(() => {
+    if (cookie) {
+        navigate('/home');
+      }
+  })
 
   const handleSubmit = async (login) => {
     login.preventDefault();
     setLoading(true);
 
-    
-
     try {
-      const { user, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
-      console.log('Logged in user:', user);
+      if (error) throw error; 
+
+      if (data && data.session) {
+        const { session } = data; 
+        console.log('Logged in user:', data.user);
+
+        Cookies.set('auth_token', session.access_token, {
+          expires: 1, 
+          path: '/',
+          secure: false, 
+        });
+
+        navigate("/home");
+      } else {
+        setError("No session returned.");
+      }
+
       setLoading(false);
-      navigate("/home");
     } catch (err) {
       setError(err.message);
       console.log('Error:', err.message);
