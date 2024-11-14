@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import './home.css'
+import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import './home.css';
 import { supabase } from '../utils/supabase';
 
 function Home() {
     const navigate = useNavigate();
     const [user, setUser] = useState('');
-    const useremail = Cookies.get('email');
-    
+    const [isLoading, setIsLoading] = useState(true);  // To handle loading state
+
+    const useremail = Cookies.get('email'); 
+
     useEffect(() => {
         const getUser = async () => {
             const { data, error } = await supabase
                 .from('Teachers')
                 .select('name')
                 .eq('email', useremail)
-                .single(); 
+                .single();
 
             if (error) {
                 console.log("Error fetching data:", error);
@@ -25,39 +27,50 @@ function Home() {
             if (data) {
                 Cookies.remove('email');
                 localStorage.setItem('username', data.name);
+                setUser(data.name);
             } else {
                 console.log("No user found with this email");
             }
         };
 
-        const username = localStorage.getItem('username')
-
-        if (useremail && !username) {
-            getUser();
-        } 
-
+        // Ensure `localStorage` access happens after page load
+        const username = localStorage.getItem('username');
+        
         if (username) {
             setUser(username);
+            setIsLoading(false);
+        } else {
+            if (useremail) {
+                getUser();
+            }
         }
-
     }, [useremail]);
 
     const handleLogOut = () => {
         Cookies.remove('auth_token');
         localStorage.removeItem('username');
-            navigate('/');
+        setUser('');
+        setIsLoading(false);  
+        navigate('/');
+    };
+
+    if (isLoading) {
+        return <div>Loading...</div>;  
     }
-  return (
-    <div className='container'>
-        <div className='header'>
-            <div className='hero'><strong>HELLO </strong>, {user}</div>
-            <div className='menu'>
-                Menu
+
+    return (
+        <div className='container'>
+            <div className='header'>
+                <div className='hero'>
+                    <strong>HELLO </strong>, {user || 'User'}
+                </div>
+                <div className='menu'>
+                    Menu
+                </div>
             </div>
+            <button onClick={handleLogOut}>Log Out</button>
         </div>
-    <button onClick={handleLogOut}>Log Out</button>
-    </div>
-  )
+    );
 }
 
-export default Home
+export default Home;
