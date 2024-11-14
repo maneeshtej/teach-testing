@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './Login/login'
 import Home from './Home/Home'
 import SignUp from './Login/signup'
+import ProtectedRoute from './utils/ProtectedRoute'
 
 
 function App() {
@@ -16,8 +17,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />}></Route>
-          <Route path='/home' element={<Home />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
+          <Route path='/home' 
+          element={
+            <ProtectedRoute><Home /></ProtectedRoute>
+          }
+
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
