@@ -7,7 +7,7 @@ import { supabase } from '../utils/supabase';
 function Home() {
     const navigate = useNavigate();
     const [user, setUser] = useState('');
-    const [isLoading, setIsLoading] = useState(true);  // To handle loading state
+    const [isLoading, setIsLoading] = useState(true);  
 
     const useremail = Cookies.get('email'); 
 
@@ -33,7 +33,6 @@ function Home() {
             }
         };
 
-        // Ensure `localStorage` access happens after page load
         const username = localStorage.getItem('username');
         
         if (username) {
