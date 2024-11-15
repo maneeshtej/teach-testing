@@ -1,0 +1,6 @@
+.timetable-card {
+    height: 90%;
+    width: 90%;
+    border: solid 1px black;
+    /* border-radius: 20px; */
+}
