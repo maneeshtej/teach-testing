@@ -93,6 +93,11 @@
 .timetable-cell {
     padding: 10px;
     border: solid 1px black;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
     
 }
 
@@ -100,10 +105,19 @@
     transition: all 200ms ease-in-out;
 }
 
-.timetable-cell:hover > h3 {
-    transform: translateY(-30px) scale(0.5);
+.timetable-cell h4 {
+    transform: translateY(50px);
     transition: all 200ms ease-in-out;
+}
 
+.timetable-cell:hover > h3 {
+    transform: translateY(-50px) ;
+    transition: all 200ms ease-in-out;
+}
+
+.timetable-cell:hover > h4 {
+    transform: translateY(-50px);
+    transition: all 200ms ease-in-out;
 }
 
 

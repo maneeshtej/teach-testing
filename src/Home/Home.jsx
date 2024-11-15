@@ -202,9 +202,13 @@ function Home() {
                     
                     {Object.keys(changedTimeTable).map((day, index1) => {
                         return changedTimeTable[day].map((classItem, index2) => {
+                            console.log(classItem.duration[1])
                             return (
-                                <div key={`${index1}-${index2}`} className='timetable-cell'>
+                                <div key={`${index1}-${index2}`} className='timetable-cell' style={{
+                                    gridColumn: `span ${classItem.duration[1]}`
+                                }}>
                                     <h3>{classItem.subject_name}</h3>
+                                    <h4>Info</h4>
                                 </div>
                             );
                         });
@@ -230,7 +234,7 @@ function Home() {
                         justifyContent: "center",
                         alignItems: "center",
                         backgroundColor: "gray"
-                    }}>LunchBreak</h2>
+                        }}>LunchBreak</h2>
 
                 </div>
             </div>
