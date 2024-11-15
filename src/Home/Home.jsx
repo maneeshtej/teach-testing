@@ -158,6 +158,8 @@ function Home() {
         navigate('/');
     };
 
+ 
+
     return (<>
     <div className='header'>
                 <div className='hero'>
@@ -228,7 +230,7 @@ function Home() {
                         justifyContent: "center",
                         alignItems: "center",
                         backgroundColor: "gray"
-                    }}>Lunch Break</h2>
+                    }}>LunchBreak</h2>
 
                 </div>
             </div>
