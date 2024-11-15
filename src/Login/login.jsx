@@ -46,6 +46,14 @@ function Login() {
           secure: false,
         })
 
+        const {error} = await supabase
+        .from('Teachers')
+        .update({Lastlogin : new Date().toISOString()})
+        .eq('email', email);
+
+        console.log(error);
+        
+
         navigate("/home");
       } else {
         setError("No session returned.");
