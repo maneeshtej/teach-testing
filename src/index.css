@@ -2,7 +2,15 @@
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+h2 {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
 }
 
 
