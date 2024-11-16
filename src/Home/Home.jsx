@@ -93,7 +93,9 @@ function Home() {
             special_period,
             Subjects (subject_name)
           `)
-            .eq('teacher_id', userid);
+            .eq('teacher_id', userid)
+            .order('day_of_week', {ascending: true})
+            .order('start_time', {ascending: true});
 
             if (data) {
                 setTimeTable(data);
@@ -147,7 +149,7 @@ function Home() {
     }, [changedTimeTable])
 
     useEffect(() => {
-        // console.log(changedTimeTable);
+        console.log(changedTimeTable);
     });
 
     const handleLogOut = () => {
@@ -202,7 +204,7 @@ function Home() {
                     
                     {Object.keys(changedTimeTable).map((day, index1) => {
                         return changedTimeTable[day].map((classItem, index2) => {
-                            console.log(classItem.duration[1])
+                            // console.log(classItem.duration[1])
                             return (
                                 <div key={`${index1}-${index2}`} className='timetable-cell' style={{
                                     gridColumn: `span ${classItem.duration[1]}`
