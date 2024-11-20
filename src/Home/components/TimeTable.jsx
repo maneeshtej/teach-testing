@@ -1,4 +1,5 @@
 import React from 'react';
+import './timetable.css'
 
 const TimeTable = ({ changedTimeTable, today, todayWeek }) => {
     const starttime = new Date();
@@ -23,10 +24,12 @@ const TimeTable = ({ changedTimeTable, today, todayWeek }) => {
                     <div key={`${index1}-${index2}`} className='timetable-cell' style={{
                         gridColumn: `span ${classItem.duration[1]}`,
                         gridRowStart: `${startday}`,
-                        backgroundColor: isNow ? 'red' : ''
+                        backgroundColor: isNow ? 'rgb(75, 255, 75)' : '',
+                        border: isNow ? '2px solid green' : "",
+                        color: isNow ? 'white' : "",
                     }}>
                         <h3>{classItem.subject_name}</h3>
-                        <h4>Info</h4>
+                        {/* <h4>Info</h4> */}
                     </div>
                 );
             });
@@ -61,7 +64,10 @@ const TimeTable = ({ changedTimeTable, today, todayWeek }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "gray"
+                // backgroundColor: "gray"
+                borderRight: '2px solid black',
+                borderLeft: '2px solid black',
+                color: 'red'
             }}>Break</h2>
             <h2 className='' style={{
                 gridColumnStart: "7",
@@ -72,7 +78,10 @@ const TimeTable = ({ changedTimeTable, today, todayWeek }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "gray"
+                // backgroundColor: "gray",
+                borderRight: '2px solid black',
+                borderLeft: '2px solid black',
+                color: 'red'
             }}>LunchBreak</h2>
         </div>
     );
