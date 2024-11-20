@@ -136,16 +136,25 @@ function Home() {
         navigate('/');
     };
 
+    const handleLinkToSubstitution = () => {
+        navigate('/substituion');
+    }
+
     return (
         <>
             <div className='header'>
                 <div className='hero'>
                     <strong>HELLO </strong>, {user || 'User'}
                 </div>
-                <div className='menu'>Menu</div>
+                <div className='header-options'>
+                    <h3 onClick={handleLinkToSubstitution}>SUBSTITUTION</h3>
+                    <h3 onClick={handleLogOut}>LOG OUT</h3>
+                    <h3>MENU</h3>
+                </div>
+                
+
             </div>
             <div className='container'>
-                <button onClick={handleLogOut}>Log Out</button>
                 <div className='timetable-container'>
                     <h1>TimeTable</h1>
                     <TimeTable changedTimeTable={changedTimeTable} today={today} todayWeek={todayWeek} />
