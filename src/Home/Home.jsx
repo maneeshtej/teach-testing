@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './home.css';
 import { supabase } from '../utils/supabase';
-import TimeTableCard from './components/TimeTableCard';
+import TimeTable from './components/TimeTable';
 
 function Home() {
     const navigate = useNavigate();
@@ -12,21 +12,12 @@ function Home() {
     const [userid, setUserid] = useState(null);
     const [timeTable, setTimeTable] = useState(null);
     const useremail = Cookies.get('email'); 
-    const [keys, setKeys] = useState([]);
     const [changedTimeTable, setChangedTimeTable] = useState({});
     const today = new Date();
     const todayWeek = today.getDay();
-    const starttime = new Date();
-    const endtime = new Date();
-
-   
-
-
-    
 
     useEffect(() => {
         const getUser = async () => {
-            // console.log('first useeffect');
             const { data, error } = await supabase
                 .from('Teachers')
                 .select('name')
@@ -39,7 +30,6 @@ function Home() {
             }
 
             if (data) {
-                // Cookies.remove('email');
                 localStorage.setItem('username', data.name);
                 setUser(data.name);
             } else {
@@ -60,10 +50,8 @@ function Home() {
     }, [useremail]);
 
     useEffect(() => {
-
-        if (!user) {return}
+        if (!user) { return; }
         const getData = async () => {
-            // console.log('second useeffect');
             const {data, error} = await supabase
             .from('Teachers')
             .select('*')
@@ -71,15 +59,10 @@ function Home() {
 
             if (data) {
                 setUserid(data[0].id);
-                // console.log(data);
             } else {
                 console.log(error);
             }
-
-            // console.log(userid);
-
-            
-        }
+        };
         getData();
     }, [user]);
 
@@ -107,29 +90,19 @@ function Home() {
             } else {
                 console.log(error);
             }
+        };
 
-        }
-
-
-            getTimeTable();
-
-        
-    }, [userid])
-
-    const convertDayNumbertoWeek = (number) => {
-        const weeks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        return(weeks[number]);
-    }
+        if (userid) getTimeTable();
+    }, [userid]);
 
     useEffect(() => {
         const changeDataTypeofTimeTable = () => {
             const groupedByDay = {};
-    
+
             for (let key in timeTable) {
                 const classItem = timeTable[key];
                 const day = classItem.day_of_week;
-                console.log(day);
-    
+
                 if (!groupedByDay[day]) {
                     groupedByDay[day] = [];
                 }
@@ -149,23 +122,11 @@ function Home() {
 
             setChangedTimeTable(groupedByDay);
         };
-    
+
         if (timeTable) {
             changeDataTypeofTimeTable();
         }
     }, [timeTable]);
-
-    useEffect(() => {
-        const generateKeys = () => {
-            const keys = Object.keys(changedTimeTable);
-            setKeys(keys);
-        }
-        generateKeys();
-    }, [changedTimeTable])
-
-    useEffect(() => {
-        // console.log(changedTimeTable);
-    });
 
     const handleLogOut = () => {
         Cookies.remove('auth_token');
@@ -175,101 +136,21 @@ function Home() {
         navigate('/');
     };
 
- 
-
-    return (<>
-    <div className='header'>
+    return (
+        <>
+            <div className='header'>
                 <div className='hero'>
                     <strong>HELLO </strong>, {user || 'User'}
                 </div>
-                <div className='menu'>
-                    Menu
+                <div className='menu'>Menu</div>
+            </div>
+            <div className='container'>
+                <button onClick={handleLogOut}>Log Out</button>
+                <div className='timetable-container'>
+                    <h1>TimeTable</h1>
+                    <TimeTable changedTimeTable={changedTimeTable} today={today} todayWeek={todayWeek} />
                 </div>
             </div>
-        <div className='container'>
-            <button onClick={handleLogOut}>Log Out</button>
-            <div className='timetable-container'>
-                <h1>TimeTable</h1>
-                <div className='timetable-grid'>
-                    <h1 className='timetable-header'>Week</h1>
-                    <h1 style={{
-                        gridRowStart: '2'
-                    }} className='timetable-week'>Monday</h1>
-                    <h1 style={{
-                        gridRowStart: '3'
-                    }} className='timetable-week'>Tuesday</h1>
-                    <h1 style={{
-                        gridRowStart: '4'
-                    }} className='timetable-week'>Wednesday</h1>
-                    <h1 style={{
-                        gridRowStart: '5'
-                    }} className='timetable-week'>Thrusday</h1>
-                    <h1 style={{
-                        gridRowStart: '6'
-                    }} className='timetable-week'>Friday</h1>
-                    <h2 className='timetable-header'>09:00 - 10:00</h2>
-                    <h2 className='timetable-header'>10:00 - 11:00</h2>
-                    <h2 className='timetable-header'>11:00 - 11:10</h2>
-                    <h2 className='timetable-header'>11:10 - 12:10</h2>
-                    <h2 className='timetable-header'>12:10 - 01:10</h2>
-                    <h2 className='timetable-header'>01:10 - 02:10</h2>
-                    <h2 className='timetable-header'>02:10 - 03:10</h2>
-                    <h2 className='timetable-header'>03:10 - 04:10</h2>
-                    
-                    {Object.keys(changedTimeTable).map((day, index1) => {
-                        return changedTimeTable[day].map((classItem, index2) => {
-                            const startday = parseInt(day) + 1;
-
-                            const starttimestring = classItem.start_time;
-                            const starttimeparts = starttimestring.split(':');
-                            starttime.setHours(starttimeparts[0], starttimeparts[1], starttimeparts[2])
-                           
-                            
-
-                            const endtimestring = classItem.end_time;
-                            const endtimeparts = endtimestring.split(':');
-                            endtime.setHours(endtimeparts[0], endtimeparts[1], endtimeparts[2])
-
-                            const isNow = (today >= starttime && today <= endtime && classItem.day_of_week == todayWeek);
-                            
-                            return (
-                                <div key={`${index1}-${index2}`} className='timetable-cell' style={{
-                                    gridColumn: `span ${classItem.duration[1]}`,
-                                    gridRowStart: `${startday}`,
-                                    backgroundColor: `${(isNow)?'red':''}`
-                                }}>
-                                    <h3>{classItem.subject_name}</h3>
-                                    <h4>Info</h4>
-                                </div>
-                            );
-                        });
-                    })}
-                    <h2 className='' style={{
-                        gridColumnStart: "4",
-                        gridRowStart: "2",
-                        gridRowEnd: "7",
-                        writingMode: "vertical-lr",
-                        textOrientation: "mixed",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "gray"
-                    }}>Break</h2>
-                    <h2 className='' style={{
-                        gridColumnStart: "7",
-                        gridRowStart: "2",
-                        gridRowEnd: "7",
-                        writingMode: "vertical-lr",
-                        textOrientation: "mixed",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "gray"
-                        }}>LunchBreak</h2>
-
-                </div>
-            </div>
-        </div>
         </>
     );
 }
