@@ -7,6 +7,7 @@ import Login from './Login/login'
 import Home from './Home/Home'
 import SignUp from './Login/signup'
 import ProtectedRoute from './utils/ProtectedRoute'
+import Substitution from './Substitution/Substitution'
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
           }
 
           ></Route>
+          <Route path='/substituion' element={
+            <ProtectedRoute><Substitution /></ProtectedRoute>
+          }> </Route>
         </Routes>
       </BrowserRouter>
     </>
