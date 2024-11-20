@@ -14,6 +14,10 @@ function Home() {
     const useremail = Cookies.get('email'); 
     const [keys, setKeys] = useState([]);
     const [changedTimeTable, setChangedTimeTable] = useState({});
+    const today = new Date();
+    const todayWeek = today.getDay();
+    const starttime = new Date();
+    const endtime = new Date();
 
    
 
@@ -67,6 +71,7 @@ function Home() {
 
             if (data) {
                 setUserid(data[0].id);
+                // console.log(data);
             } else {
                 console.log(error);
             }
@@ -102,11 +107,19 @@ function Home() {
             } else {
                 console.log(error);
             }
+
         }
 
-        getTimeTable();
+
+            getTimeTable();
+
         
     }, [userid])
+
+    const convertDayNumbertoWeek = (number) => {
+        const weeks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        return(weeks[number]);
+    }
 
     useEffect(() => {
         const changeDataTypeofTimeTable = () => {
@@ -115,6 +128,7 @@ function Home() {
             for (let key in timeTable) {
                 const classItem = timeTable[key];
                 const day = classItem.day_of_week;
+                console.log(day);
     
                 if (!groupedByDay[day]) {
                     groupedByDay[day] = [];
@@ -129,6 +143,7 @@ function Home() {
                     duration: classItem.duration,
                     special_period: classItem.special_period,
                     subject_name: classItem.Subjects?.subject_name || 'N/A', 
+                    day_of_week: day,
                 });
             }
 
@@ -149,7 +164,7 @@ function Home() {
     }, [changedTimeTable])
 
     useEffect(() => {
-        console.log(changedTimeTable);
+        // console.log(changedTimeTable);
     });
 
     const handleLogOut = () => {
@@ -176,7 +191,6 @@ function Home() {
             <div className='timetable-container'>
                 <h1>TimeTable</h1>
                 <div className='timetable-grid'>
-                    {/* <TimeTableCard data={timeTable} type={'header'}></TimeTableCard> */}
                     <h1 className='timetable-header'>Week</h1>
                     <h1 style={{
                         gridRowStart: '2'
@@ -204,10 +218,25 @@ function Home() {
                     
                     {Object.keys(changedTimeTable).map((day, index1) => {
                         return changedTimeTable[day].map((classItem, index2) => {
-                            // console.log(classItem.duration[1])
+                            const startday = parseInt(day) + 1;
+
+                            const starttimestring = classItem.start_time;
+                            const starttimeparts = starttimestring.split(':');
+                            starttime.setHours(starttimeparts[0], starttimeparts[1], starttimeparts[2])
+                           
+                            
+
+                            const endtimestring = classItem.end_time;
+                            const endtimeparts = endtimestring.split(':');
+                            endtime.setHours(endtimeparts[0], endtimeparts[1], endtimeparts[2])
+
+                            const isNow = (today >= starttime && today <= endtime && classItem.day_of_week == todayWeek);
+                            
                             return (
                                 <div key={`${index1}-${index2}`} className='timetable-cell' style={{
-                                    gridColumn: `span ${classItem.duration[1]}`
+                                    gridColumn: `span ${classItem.duration[1]}`,
+                                    gridRowStart: `${startday}`,
+                                    backgroundColor: `${(isNow)?'red':''}`
                                 }}>
                                     <h3>{classItem.subject_name}</h3>
                                     <h4>Info</h4>
