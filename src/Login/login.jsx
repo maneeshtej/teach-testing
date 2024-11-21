@@ -68,9 +68,9 @@ function Login() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <h1>Email:</h1>
+    <div className='login-wrapper'>
+      <form onSubmit={handleSubmit} className='login-form'>
+        <h1 className='login-label'>Email</h1>
         <input
           type="email"
           placeholder="Enter Your Email"
@@ -78,8 +78,9 @@ function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className='login-input'
         />
-        <h1>Password:</h1>
+        <h1 className='login-label'>Password</h1>
         <input
           type="password"
           placeholder="Password"
@@ -87,12 +88,13 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className='login-input'
         />
         <input type="submit" value={loading ? 'Logging in...' : 'Submit'} disabled={loading} />
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <Link className='sign-up' to={"/signup"}>Sign Up</Link>
-    </>
+    </div>
   );
 }
 

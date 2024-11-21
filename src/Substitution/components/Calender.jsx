@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './calender.css'
 
-const Calendar = ({handleSelectedDays}) => {
+const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
   
     const handlePrevMonth = () => {
