@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './calender.css'
 
-const Calendar = () => {
+const Calendar = ({onSendData}) => {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const sendData = (day, monthName, week) => {
+        onSendData(day, monthName, week);
+    }
   
     const handlePrevMonth = () => {
         setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
@@ -54,7 +57,8 @@ const Calendar = () => {
                 </div>
                 <div className="days-grid">
                     {daysInMonth.map((day, index) => (
-                        <div key={index} className="day">
+                        <div key={index} className="day"
+                        onClick={() => {sendData(day, monthName, parseInt(index) % 7)}}>
                             {day ? day : ''}
                         </div>
                     ))}
