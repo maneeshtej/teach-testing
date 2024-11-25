@@ -15,8 +15,10 @@
     display: grid;
     grid-template-columns: 3fr 2fr 2fr 1fr 2fr 2fr 2fr 2fr 2fr;
     grid-template-rows: repeat(6, 1fr);
-    /* gap: 10px; */
-}
+    transition: all 200ms ease-in-out;
+} 
+
+
 
 .timetable-header {
     /* background-color: rgb(255, 135, 243); */
@@ -71,15 +73,5 @@
 
 .timetable-cell h4 {
     transform: translateY(50px);
-    transition: all 200ms ease-in-out;
-}
-
-.timetable-cell:hover > h3 {
-    transform: translateY(-50px) ;
-    transition: all 200ms ease-in-out;
-}
-
-.timetable-cell:hover > h4 {
-    transform: translateY(-50px);
     transition: all 200ms ease-in-out;
 }
