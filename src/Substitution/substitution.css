@@ -1,25 +1,43 @@
 .substituion-wrapper {
     height: 100vh;
     position: relative;
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     transition: all 200ms ease-in-out;
-    /* background-color: red; */
+    overflow: hidden;
+}
+
+.cd-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(94, 94, 255);
 }
 
 
 .cd-wrapper {
     position: absolute;
     opacity: 0;
+    scale: 1.2;
     left: 50%;
+    transform: translateX(-50%);
     transition: all 500ms ease-in-out;
+    background-color: rgb(94, 94, 255);
   }
   
   .cd-wrapper.shift {
-    left: 10%;
+    left:10%;
+    scale: 1;
+    transition: all 500ms ease-in-out;
+  }
+
+  .cd-wrapper.stage2 {
+    scale: 0;
     transition: all 500ms ease-in-out;
   }
   
@@ -50,11 +68,31 @@
     width: 100vw;
     left: 100%;
     transition: all 500ms ease-in-out;
+    overflow: scroll;
+    padding: 50px;
 }
 
 .sd-wrapper.shift {
     left: 60%;
     transition: all 500ms ease-in-out;
+}
+
+.sd-wrapper.stage2 {
+    left: 0%;
+}
+
+.sd-wrapper > h2 {
+    position: absolute;
+    bottom: 100px;
+    font-weight: 100;
+    font-size: 30px;
+    color: rgb(88, 88, 88);
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.sd-wrapper > h2:hover {
+    color: rgb(0, 0, 0);
 }
  
 
@@ -70,11 +108,15 @@
     /* background-color: yellow; */
 }
 
-.sd-container > h3 {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.sd-container > h2 {
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.sd-container > h2:hover {
+    scale: 1.1;
+    color: rgb(63, 63, 63);
+    filter: drop-shadow(5px 5px 10px black);
 }
 
 
@@ -101,11 +143,27 @@
     /* background-color: green; */
 }
 
+.month-container h3 {
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.month-container h3:hover {
+    scale: 0.9;
+    transition: all 200ms ease-in-out;
+}
+
 .delete {
     opacity: 0; 
     visibility: hidden; 
-    transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+    transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out, transform 200ms ease-in-out, color 200ms ease-in-out;
     cursor: pointer;
+}
+
+.delete:hover {
+    transform: translateX(3px);
+    color: yellow;
+    transition: transform 200ms ease-in-out, color 200ms ease-in-out;
 }
 
 .month-container:hover .delete {
@@ -120,6 +178,13 @@
     justify-content: center;
     border-radius: 20px;
     padding: 5px;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.day-container:hover {
+    scale: 1.1;
+    transition: all 200ms ease-in-out;
 }
 
 
