@@ -1,5 +1,5 @@
 .header {
-    height: 50px;
+    height: 5vh;
     width: 100vw;
     display: flex;
     background-color: black;
@@ -44,5 +44,32 @@
 
 .logout {
     cursor: pointer;
+}
+
+.main {
+    background-color: gray;
+    height: 95vh;
+    width: 100vw;
+}
+
+.pheader {
+    width: 100%;
+    height: 5vh;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.pheader-item {
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
 }
 

@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabase";
+import Substitution from "../Substitution/Substitution.jsx";
+import {
+  checkSession,
+  getUser,
+  getTimeTable,
+  convertTimeTable,
+  handleLogOut,
+  getPage,
+  setPage,
+} from "../utils/homeUtils/homeUtils.js";
 import "./home.css";
 
 function Home() {
@@ -10,141 +19,49 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [teacherData, setTeacherData] = useState([]);
   const [unpreparedTimeTable, setUnpreparedTimeTable] = useState();
-  const [timeTable, setTimeTable] = useState();
+  const [timeTable, setTimeTable] = useState([]);
   const useremail = Cookies.get("email");
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
-  console.log(time);
-
-  // checkSession
-  // checks if user is logged in by checking authToken and email from Cookies
-  // if any one doesn't exist then an alert is thrown and handleLogOut funciton in executed
-  // then navigates to route '/'
-
-  const checkSession = () => {
-    const authToken = Cookies.get("auth_token");
-    const email = Cookies.get("email");
-
-    if (!authToken || !email) {
-      alert("Session expired. Please log in again");
-      handleLogOut();
-      navigate("/");
-    }
-  };
-
-  // getUser
-  // retrieves teacherData from Teachers table from supabase
-  // data is stored in data
-  // retrieves by using useremail from login from localstorage
-  // if data is successfull then stores username and TeacherData in local storage
-  // if not successfull then throw an alert
-
-  const getUser = async () => {
-    const username = localStorage.getItem("username");
-    const teacherData = localStorage.getItem("TeacherData");
-
-    if (username || teacherData) {
-      const parsedTeacherData = JSON.parse(teacherData);
-      setUser(username);
-      setTeacherData(parsedTeacherData);
-      setIsLoading(false);
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("Teachers")
-      .select("*")
-      .eq("email", useremail)
-      .single();
-
-    if (error) {
-      console.error("Error fetching data:", error);
-      setIsLoading(false);
-      return;
-    }
-
-    if (data) {
-      localStorage.setItem("username", data.name);
-      localStorage.setItem("TeacherData", JSON.stringify(data));
-      setUser(data.name);
-      setTeacherData(data);
-      getTimeTable();
-    } else {
-      console.log("No user found with this email");
-    }
-    setIsLoading(false);
-  };
-
-  // getTimeTable
-  // gets TeacherData from localstorage
-  // if not exists then get TeacherTimeTable from supabase
-  // store data in LocalStorage
-  // if fails throw an alert
-
-  const getTimeTable = async () => {
-    const unparsedTimeTable = localStorage.getItem("TeacherTimeTable");
-    if (unparsedTimeTable) {
-      const TimeTable = JSON.parse(unparsedTimeTable);
-      setUnpreparedTimeTable(TimeTable);
-      convertTimeTable();
-      return;
-    }
-
-    const unparsedTeacherId = localStorage.getItem("TeacherData");
-    if (unparsedTeacherId) {
-      const teacherID = JSON.parse(unparsedTeacherId)["id"];
-
-      const { data, error } = await supabase
-        .from("Classes")
-        .select("*")
-        .eq("teacher_id", teacherID);
-
-      if (error) {
-        console.log(error);
-        return;
-      }
-
-      if (data) {
-        localStorage.setItem("TeacherTimeTable", JSON.stringify(data));
-        setUnpreparedTimeTable(data);
-      }
-    } else {
-      console.log("Teacher data deoesnt exist");
-      return;
-    }
-  };
-
-  const convertTimeTable = () => {
-    for (let key in timeTable) {
-      console.log(timeTable[key]);
-    }
-  };
+  const [curPage, setCurPage] = useState(getPage() || 0);
 
   useEffect(() => {
-    getUser();
+    // Get user info and update state
+    const fetchUserData = async () => {
+      const userData = await getUser(useremail);
+      if (userData.error) {
+        console.error(userData.error);
+        setIsLoading(false);
+        return;
+      }
+      setUser(userData.user);
+      setTeacherData(userData.teacherData);
+    };
 
-    getTimeTable();
+    // Get timetable info and update state
+    const fetchTimeTable = async () => {
+      const timeTableData = await getTimeTable();
+      if (timeTableData.error) {
+        console.error(timeTableData.error);
+        setIsLoading(false);
+        return;
+      }
+      setUnpreparedTimeTable(timeTableData);
+      const formattedTimeTable = convertTimeTable(timeTableData);
+      setTimeTable(formattedTimeTable);
+    };
+
+    fetchUserData();
+    fetchTimeTable();
 
     const interval = setInterval(() => {
-      checkSession();
+      checkSession(navigate);
     }, 5000);
 
     return () => clearInterval(interval);
   }, [useremail, navigate]);
 
-  // handleLogOut
-  // remove cookies "auth_tokne" and "email"
-  // remove localStorage items "username", "TeacherData", and "TeacherTimeTable"
-  // naviagate to '/'
-
-  const handleLogOut = () => {
-    Cookies.remove("auth_token");
-    Cookies.remove("email");
-    localStorage.removeItem("username");
-    localStorage.removeItem("TeacherData");
-    localStorage.removeItem("TeacherTimeTable");
-    setUser("");
-    setIsLoading(false);
-    navigate("/");
+  const switchPage = (page) => {
+    setCurPage(setPage(page));
+    console.log(getPage());
   };
 
   // Header component to display user profile and menu items
@@ -209,9 +126,7 @@ function Home() {
         </div>
         <div
           className="menu-item logout"
-          onClick={() => {
-            handleLogOut();
-          }}
+          onClick={() => handleLogOut(navigate)}
         >
           <svg
             width="800px"
@@ -233,15 +148,65 @@ function Home() {
     </div>
   );
 
+  const Pageselector = () => (
+    <div className="pheader">
+      <h1
+        className="pheader-item"
+        onClick={() => {
+          switchPage(0);
+        }}
+        style={{
+          color: curPage == 0 ? "red" : "white",
+        }}
+      >
+        DASHBOARD
+      </h1>
+      <h1
+        className="pheader-item"
+        onClick={() => {
+          switchPage(1);
+        }}
+        style={{
+          color: curPage == 1 ? "red" : "white",
+        }}
+      >
+        SUBSTITUION
+      </h1>
+      <h1
+        className="pheader-item"
+        onClick={() => {
+          switchPage(2);
+        }}
+        style={{
+          color: curPage == 2 ? "red" : "white",
+        }}
+      >
+        PREFERENCES
+      </h1>
+    </div>
+  );
+
+  const DisplayPage = () => {
+    switch (curPage) {
+      case 0:
+        return <h1>Hello</h1>;
+        break;
+      case 1:
+        return <Substitution></Substitution>;
+        break;
+      case 2:
+        return <h1>Info</h1>;
+    }
+  };
+
   // Returning JSX for the Home page component
   return (
     <div>
       <Header />
-      <div className="body">
-        <div className="time-table">
-          {/* Render Teacher's timetable here */}
-        </div>
-      </div>
+      <section className="main">
+        <Pageselector />
+        <DisplayPage />
+      </section>
     </div>
   );
 }
