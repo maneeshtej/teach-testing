@@ -108,19 +108,24 @@ function Substitution2() {
     });
   };
 
-  const selectPeriods = (period) => {
-    // console.log(period);
+  const selectPeriods = (period, day, month) => {
     setSelectedPeriods((prevState) => {
       const updated = { ...prevState };
 
-      if (!updated[period.class_id]) {
-        updated[period.class_id] = {};
-      }
+      // Use day in the composite key instead of week or start_time
+      const compositeKey = `${period.class_id}_${day}`;
 
-      updated[period.class_id] = {
+      // Add or update the period data
+      updated[compositeKey] = {
+        class_id: period.class_id,
         subject_name: period.subject_name,
         teacher_id: period.teacher_id,
+        date: new Date(
+          `${month} ${day}, ${new Date().getFullYear()} ${period.start_time}`
+        ).toISOString(), // ISO format
       };
+
+      // Save updated state to localStorage
       localStorage.setItem("selectedPeriods", JSON.stringify(updated));
       return updated;
     });
@@ -161,7 +166,8 @@ function Substitution2() {
                             <div
                               key={classData.class_id}
                               onClick={() => {
-                                selectPeriods(classData);
+                                selectPeriods(classData, day, month, week);
+                                console.log(classData);
                               }}
                               style={{}}
                             >

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Calender from "./components/Calender";
 import Substitution2 from "./SubstitutionPages/Substitution2";
 import "./substitution.css";
+import Substitution3 from "./SubstitutionPages/Substitution3";
 
 function Substitution() {
   const [page, setPage] = useState(() => {
@@ -49,7 +50,13 @@ function Substitution() {
           3
         </h1>
       </div>
-      {page === 0 ? <Calender /> : <Substitution2 />}
+      {page === 0 ? (
+        <Calender />
+      ) : page === 1 ? (
+        <Substitution2 />
+      ) : (
+        <Substitution3 />
+      )}
     </div>
   );
 }
