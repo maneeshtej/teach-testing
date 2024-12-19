@@ -34,6 +34,8 @@ function Home() {
       }
       setUser(userData.user);
       setTeacherData(userData.teacherData);
+
+      fetchTimeTable();
     };
 
     // Get timetable info and update state
@@ -50,7 +52,6 @@ function Home() {
     };
 
     fetchUserData();
-    fetchTimeTable();
 
     const interval = setInterval(() => {
       checkSession(navigate);

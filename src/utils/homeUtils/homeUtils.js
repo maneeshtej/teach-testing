@@ -62,7 +62,17 @@ export const getTimeTable = async () => {
 
     const { data, error } = await supabase
       .from("Classes")
-      .select("*")
+      .select(`
+        class_id,
+        teacher_id,
+        subject_id,
+        start_time,
+        end_time,
+        duration,
+        special_period,
+        day_of_week,
+        Subjects(subject_name)
+      `)  
       .eq("teacher_id", teacherID);
 
     if (error) {
@@ -71,14 +81,31 @@ export const getTimeTable = async () => {
     }
 
     if (data) {
-      localStorage.setItem("TeacherTimeTable", JSON.stringify(data));
-      return data;
+      // Structure the data as {[class_id]: {teacher_id, subject_name, start_time, ...}}
+      const formattedData = data.reduce((acc, curr) => {
+        acc[curr.class_id] = {
+          teacher_id: curr.teacher_id,
+          subject_name: curr.Subjects.subject_name,
+          start_time: curr.start_time,
+          end_time: curr.end_time,
+          duration: curr.duration,
+          special_period: curr.special_period,
+          day_of_week: curr.day_of_week
+        };
+        return acc;
+      }, {});
+
+      // Save formatted data to localStorage
+      localStorage.setItem("TeacherTimeTable", JSON.stringify(formattedData));
+
+      return formattedData;
     }
   } else {
     console.log("Teacher data doesn't exist");
     return { error: "Teacher data not found" };
   }
 };
+
 
 // convertTimeTable function
 export const convertTimeTable = (unpreparedTimeTable) => {
@@ -98,6 +125,10 @@ export const handleLogOut = (navigate) => {
   localStorage.removeItem("username");
   localStorage.removeItem("TeacherData");
   localStorage.removeItem("TeacherTimeTable");
+  localStorage.removeItem("selectedPeriods");
+  localStorage.removeItem("localSelectedDays");
+  localStorage.removeItem("page");
+  localStorage.removeItem("subpage");
   navigate("/");
 };
 
