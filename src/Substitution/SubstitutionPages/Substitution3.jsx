@@ -14,10 +14,9 @@ function Substitution3() {
   const [teachers, setTeachers] = useState();
   const [dropdownIndex, setDropdownIndex] = useState();
   const [selectedSubTeachers, setSelectedSubTeachers] = useState({});
-  const [selectedIndexes, setSelectedIndexes] = useState([]);
 
   useEffect(() => {
-    // console.log(selectedSubTeachers);
+    console.log(selectedSubTeachers);
   }, [setSelectedSubTeachers]);
 
   const getTeachers = async () => {
@@ -72,94 +71,6 @@ function Substitution3() {
     setDropdownIndex(null);
   };
 
-  const selectIndex = (id) => {
-    setSelectedIndexes((prevState) => {
-      if (prevState.includes(id)) {
-        return prevState.filter((item) => item != id);
-      } else {
-        return [...prevState, id];
-      }
-    });
-  };
-
-  const checkSelected = (id) => {
-    if (selectedIndexes.includes(id)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const selectAll = () => {
-    if (selectedIndexes.includes(-1)) {
-      setSelectedIndexes([]);
-    } else {
-      selectIndex(-1);
-      for (let id in selectedPeriods) {
-        setSelectedIndexes((prevState) => {
-          if (prevState.includes(id)) {
-            return prevState;
-          } else {
-            return [...prevState, id];
-          }
-        });
-      }
-    }
-  };
-
-  const selectSelectedIndexesTeachers = (value, teachId) => {
-    selectedIndexes.forEach((id) => {
-      // Skip the special -1 index for "select all"
-      if (id !== -1 && selectedPeriods[id]) {
-        updateTeacher(value, teachId, id);
-      }
-    });
-  };
-
-  const SelectAllDropDown = () => {
-    if (teachers) {
-      return (
-        <div className="sub3-dropdown">
-          <input
-            type="text"
-            className="sub3-dropdown-searchbar"
-            onFocus={() => getSearchFocus(-1)}
-            value={() => handleInputChange(-1)}
-            onChange={() => {}}
-          />
-          <div
-            className="sub3-dropdown-options"
-            style={{
-              display: -1 === dropdownIndex ? "flex" : "none",
-            }}
-          >
-            {teachers.map((teacher) => (
-              <div
-                className="sub3-dropdown-option"
-                key={teacher.id}
-                onClick={() => {
-                  getSearchFocus(-1);
-                  selectSelectedIndexesTeachers(teacher.name, teacher.id);
-                }}
-              >
-                {teacher.name}
-              </div>
-            ))}
-            <div
-              className="sub3-dropdown-option"
-              onClick={() => {
-                getSearchFocus(-1);
-                selectSelectedIndexesTeachers("none", null);
-              }}
-            >
-              none
-            </div>
-          </div>
-        </div>
-      );
-    }
-  };
-
   const RenerDropdown = ({ index }) => {
     if (teachers) {
       return (
@@ -169,7 +80,7 @@ function Substitution3() {
             className="sub3-dropdown-searchbar"
             onFocus={() => getSearchFocus(index)}
             value={handleInputChange(index) || "none"}
-            onChange={() => {}}
+            onChange={() => {}} // Keep empty for dropdown-controlled input
           />
           <div
             className="sub3-dropdown-options"
@@ -179,7 +90,7 @@ function Substitution3() {
           >
             {Object.keys(teachers).map((teacher) => (
               <div
-                key={teacher}
+                key={teacher} // Ensure a unique key for each dropdown option
                 className="sub3-dropdown-option"
                 onClick={() =>
                   updateTeacher(
@@ -224,7 +135,7 @@ function Substitution3() {
         <h3>-</h3>
         <h3>-</h3>
         <h3>-</h3>
-        <SelectAllDropDown></SelectAllDropDown>
+        <RenerDropdown />
         <div className="cell-item">
           <input type="checkbox" />
         </div>
@@ -232,11 +143,7 @@ function Substitution3() {
           <input type="checkbox" />
         </div>
         <div className="cell-item">
-          <input
-            type="checkbox"
-            checked={checkSelected(-1)}
-            onChange={() => selectAll()}
-          />
+          <input type="checkbox" />
         </div>
       </div>
       {Object.keys(selectedPeriods).map((id) => (
@@ -256,11 +163,7 @@ function Substitution3() {
             <input type="checkbox" />
           </div>
           <div className="cell-item">
-            <input
-              type="checkbox"
-              checked={checkSelected(id)}
-              onChange={() => selectIndex(id)}
-            />
+            <input type="checkbox" />
           </div>
         </div>
       ))}

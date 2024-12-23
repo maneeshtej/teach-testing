@@ -74,19 +74,23 @@ function Calender() {
       const updated = { ...prev };
 
       if (updated[month] && updated[month][weekName]) {
+        // Remove the day from the week
         updated[month][weekName] = updated[month][weekName].filter(
           (d) => d !== day
         );
 
+        // Clean up empty week array
         if (updated[month][weekName].length === 0) {
           delete updated[month][weekName];
         }
       }
 
+      // Clean up empty month object
       if (Object.keys(updated[month] || {}).length === 0) {
         delete updated[month];
       }
 
+      // Save updated selected days in localStorage
       localStorage.setItem("localSelectedDays", JSON.stringify(updated));
 
       return updated;
@@ -102,6 +106,7 @@ function Calender() {
     setSelectedDays((prev) => {
       const updated = { ...prev };
 
+      // Ensure the structure for the month and week exists
       if (!updated[month]) updated[month] = {};
       if (!updated[month][weekName]) updated[month][weekName] = [];
 
@@ -109,6 +114,7 @@ function Calender() {
         console.log("already exists");
       }
 
+      // Add the day if it's not already in the array
       if (!updated[month][weekName].includes(day)) {
         updated[month][weekName].push(day);
         localStorage.setItem("localSelectedDays", JSON.stringify(updated));
