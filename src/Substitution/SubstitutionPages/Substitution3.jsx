@@ -16,7 +16,7 @@ function Substitution3() {
   const [selectedSubTeachers, setSelectedSubTeachers] = useState({});
 
   useEffect(() => {
-    console.log(selectedSubTeachers);
+    // console.log(selectedSubTeachers);
   }, [setSelectedSubTeachers]);
 
   const getTeachers = async () => {
