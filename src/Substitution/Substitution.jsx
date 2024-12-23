@@ -11,7 +11,7 @@ function Substitution() {
   });
 
   useEffect(() => {
-    console.log(page);
+    // console.log(page);
   }, [page]);
 
   const pageSetter = (page) => {

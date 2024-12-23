@@ -62,7 +62,7 @@ function Home() {
 
   const switchPage = (page) => {
     setCurPage(setPage(page));
-    console.log(getPage());
+    // console.log(getPage());
   };
 
   // Header component to display user profile and menu items

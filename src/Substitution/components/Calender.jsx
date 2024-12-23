@@ -6,7 +6,7 @@ function Calender() {
   const [selectedDays, setSelectedDays] = useState({});
 
   useEffect(() => {
-    console.log(selectedDays); // Debugging state changes
+    // console.log(selectedDays); // Debugging state changes
   }, [selectedDays]);
 
   const getLocalSelectedDays = () => {
@@ -97,7 +97,7 @@ function Calender() {
     const { month } = getMonthYear();
     const weekName = getWeekName(day);
 
-    console.log(day, month, weekName);
+    // console.log(day, month, weekName);
 
     setSelectedDays((prev) => {
       const updated = { ...prev };

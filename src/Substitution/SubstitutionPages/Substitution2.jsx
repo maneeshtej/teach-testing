@@ -29,7 +29,7 @@ function Substitution2() {
   useEffect(() => {
     // console.log(selectedDays);
     // console.log(teacherTimeTable);
-    console.log(selectedPeriods);
+    // console.log(selectedPeriods);
   }, [selectedDays, teacherTimeTable, selectedPeriods]);
 
   const convertTimeTable = () => {
@@ -167,7 +167,7 @@ function Substitution2() {
                               key={classData.class_id}
                               onClick={() => {
                                 selectPeriods(classData, day, month, week);
-                                console.log(classData);
+                                // console.log(classData);
                               }}
                               style={{}}
                             >
