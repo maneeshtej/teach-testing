@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '../utils/supabase';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { supabase } from "../utils/supabase";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const cookie = Cookies.get('auth_token');
+  const cookie = Cookies.get("auth_token");
 
   useEffect(() => {
     if (cookie) {
-        navigate('/home');
-      }
-  })
+      navigate("/home");
+    }
+  });
 
   const handleSubmit = async (login) => {
     login.preventDefault();
@@ -28,31 +28,30 @@ function Login() {
         password,
       });
 
-      if (error) throw error; 
+      if (error) throw error;
 
       if (data && data.session) {
-        const { session } = data; 
-        console.log('Logged in user:', data.user.email);
+        const { session } = data;
+        console.log("Logged in user:", data.user.email);
 
-        Cookies.set('auth_token', session.access_token, {
-          expires: 1, 
-          path: '/',
-          secure: false, 
+        Cookies.set("auth_token", session.access_token, {
+          expires: 1,
+          path: "/",
+          secure: false,
         });
 
-        Cookies.set('email', data.user.email, {
+        Cookies.set("email", data.user.email, {
           expires: 1,
-          path: '/',
+          path: "/",
           secure: false,
-        })
+        });
 
-        const {error} = await supabase
-        .from('Teachers')
-        .update({Lastlogin : new Date().toISOString()})
-        .eq('email', email);
+        const { error } = await supabase
+          .from("Teachers")
+          .update({ Lastlogin: new Date().toISOString() })
+          .eq("email", email);
 
         console.log(error);
-        
 
         navigate("/home");
       } else {
@@ -62,15 +61,15 @@ function Login() {
       setLoading(false);
     } catch (err) {
       setError(err.message);
-      console.log('Error:', err.message);
+      console.log("Error:", err.message);
       setLoading(false);
     }
   };
 
   return (
-    <div className='login-wrapper'>
-      <form onSubmit={handleSubmit} className='login-form'>
-        <h1 className='login-label'>Email</h1>
+    <div className="login-wrapper">
+      <form onSubmit={handleSubmit} className="login-form">
+        <h1 className="login-label">Email</h1>
         <input
           type="email"
           placeholder="Enter Your Email"
@@ -78,9 +77,9 @@ function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className='login-input'
+          className="login-input"
         />
-        <h1 className='login-label'>Password</h1>
+        <h1 className="login-label">Password</h1>
         <input
           type="password"
           placeholder="Password"
@@ -88,12 +87,18 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className='login-input'
+          className="login-input"
         />
-        <input type="submit" value={loading ? 'Logging in...' : 'Submit'} disabled={loading} />
+        <input
+          type="submit"
+          value={loading ? "Logging in..." : "Submit"}
+          disabled={loading}
+        />
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <Link className='sign-up' to={"/signup"}>Sign Up</Link>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <Link className="sign-up" to={"/signup"}>
+        Sign Up
+      </Link>
     </div>
   );
 }
