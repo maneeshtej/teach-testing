@@ -23,6 +23,44 @@ function Home() {
   const useremail = Cookies.get("email");
   const [curPage, setCurPage] = useState(getPage() || 0);
 
+  function getDeviceDetails() {
+    const userAgent = navigator.userAgent;
+
+    // Detect operating system
+    const isWindows = userAgent.includes("Windows");
+    const isMac = userAgent.includes("Macintosh");
+    const isLinux = userAgent.includes("Linux");
+    const isAndroid = userAgent.includes("Android");
+    const isIOS = /iPhone|iPad|iPod/.test(userAgent);
+
+    let os = "Unknown OS";
+    if (isWindows) os = "Windows";
+    else if (isMac) os = "Mac";
+    else if (isLinux) os = "Linux";
+    else if (isAndroid) os = "Android";
+    else if (isIOS) os = "iOS";
+
+    // Detect browser
+    const isChrome = userAgent.includes("Chrome");
+    const isFirefox = userAgent.includes("Firefox");
+    const isSafari = userAgent.includes("Safari") && !isChrome;
+
+    let browser = "Unknown Browser";
+    if (isChrome) browser = "Chrome";
+    else if (isFirefox) browser = "Firefox";
+    else if (isSafari) browser = "Safari";
+
+    return { os, browser };
+  }
+
+  const details = getDeviceDetails();
+  console.log(`Operating System: ${details.os}`);
+  console.log(`Browser: ${details.browser}`);
+
+  useEffect(() => {
+    getDeviceDetails();
+  }, []);
+
   useEffect(() => {
     // Get user info and update state
     const fetchUserData = async () => {
