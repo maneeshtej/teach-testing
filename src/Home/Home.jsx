@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import Substitution from "../Substitution/Substitution.jsx";
 import {
   checkSession,
   getUser,
@@ -108,6 +107,12 @@ function Home() {
               <div
                 className="home-sidebar-filter-option"
                 onClick={() => setFilterOptionIndex(0)}
+                style={{
+                  backgroundColor: `${
+                    filterOptionIndex == 0 ? "" : "rgb(30, 30, 30)"
+                  }`,
+                  width: "13vw",
+                }}
               >
                 <h3>Time</h3>
                 <div
@@ -125,6 +130,12 @@ function Home() {
               <div
                 className="home-sidebar-filter-option"
                 onClick={() => setFilterOptionIndex(1)}
+                style={{
+                  backgroundColor: `${
+                    filterOptionIndex == 1 ? "" : "rgb(30, 30, 30)"
+                  }`,
+                  width: "13vw",
+                }}
               >
                 <h3>State</h3>
                 <div
@@ -140,6 +151,12 @@ function Home() {
               <div
                 className="home-sidebar-filter-option"
                 onClick={() => setFilterOptionIndex(2)}
+                style={{
+                  backgroundColor: `${
+                    filterOptionIndex == 2 ? "" : "rgb(30, 30, 30)"
+                  }`,
+                  width: "13vw",
+                }}
               >
                 <h3>Status</h3>
                 <div
@@ -156,6 +173,12 @@ function Home() {
               <div
                 className="home-sidebar-filter-option"
                 onClick={() => setFilterOptionIndex(3)}
+                style={{
+                  backgroundColor: `${
+                    filterOptionIndex == 3 ? "" : "rgb(30, 30, 30)"
+                  }`,
+                  width: "13vw",
+                }}
               >
                 <h3>Re Substitution</h3>
                 <div

@@ -7,7 +7,6 @@ import Login from "./Login/login";
 import Home from "./Home/Home";
 import SignUp from "./Login/signup";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import NewSubstitution from "./Substitution/Add/NewSubstitution";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,14 +22,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
-              </ProtectedRoute>
-            }
-          ></Route>
-          <Route
-            path="/substitution"
-            element={
-              <ProtectedRoute>
-                <NewSubstitution />
               </ProtectedRoute>
             }
           ></Route>

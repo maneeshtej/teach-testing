@@ -84,6 +84,10 @@
     cursor: pointer;
 }
 
+.home-sidebar-filter:hover {
+    background-color: var(--black-5);
+}
+
 .home-sidebar-filter-options {
     max-width: 15vw;
     display: flex;
@@ -110,6 +114,7 @@
     cursor: pointer;
 }
 
+
 .home-sidebar-filter-suboption {
     display: flex;
     flex-direction: column;
@@ -122,20 +127,6 @@
 .home-sidebar-filter-option h3 {
     font-weight: lighter;
     font-size: 13px;
-}
-
-.home-sidebar-item {
-    /* border-top: 1px solid var(--black-7);
-    margin: 0px;
-    margin-top: 20px;
-    padding-left: 15px;
-    color: var(--black-16);
-    font-weight: 300;
-    width: 15vw;
-    max-width: 15vw;
-    height: 3vh;
-    display: flex;
-    align-items: center; */
 }
   
 .home-content {
