@@ -84,6 +84,7 @@ export const getTimeTable = async () => {
       // Structure the data as {[class_id]: {teacher_id, subject_name, start_time, ...}}
       const formattedData = data.reduce((acc, curr) => {
         acc[curr.class_id] = {
+          class_id: curr.class_id,
           teacher_id: curr.teacher_id,
           subject_name: curr.Subjects.subject_name,
           start_time: curr.start_time,

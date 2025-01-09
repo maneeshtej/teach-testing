@@ -32,7 +32,6 @@ function Login() {
 
       if (data && data.session) {
         const { session } = data;
-        // console.log('Logged in user:', data.user.email);
 
         Cookies.set("auth_token", session.access_token, {
           expires: 1,

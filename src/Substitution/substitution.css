@@ -1,22 +1,9 @@
-.sub-wrapper {
-    width: 100vw;
+.substitution-wrapper {
+    background-color: wheat;
     height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    overflow: scroll;
+    width: 100%;
 }
 
-.sub-header {
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    color: white;
-}
-
-.sub-header-item {
+.substitution-wrapper h1 {
     cursor: pointer;
 }
