@@ -3,8 +3,8 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Login/login";
-import Home from "./Home/Home";
+import Login from "./Login/login.jsx";
+import Home from "./Home/home/Home.jsx";
 import SignUp from "./Login/signup";
 import ProtectedRoute from "./utils/ProtectedRoute";
 

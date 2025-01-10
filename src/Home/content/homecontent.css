@@ -1,0 +1,134 @@
+.content-wrapper {
+  height: 95vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-header {
+  display: flex;
+  height: 7vh;
+  max-height: 7vh;
+}
+
+.content-header-left {
+  height: 100%;
+  flex: 4;
+  display: flex;
+  align-items: center;
+}
+
+.header-left-searchbox {
+  padding-left: 20px;
+  width: 80%;
+  flex: 0.95;
+}
+
+.header-left-search {
+  border: 1px solid var(--black-7);
+  display: flex;
+  border-radius: 10px;
+  padding: 10px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+.header-left-search > svg {
+  height: 20px;
+  width: 20px;
+}
+
+.header-left-search > svg > path {
+  stroke: var(--black-17);
+}
+
+.header-left-search > input {
+  background-color: transparent;
+  flex: 1;
+  border: none;
+  color: var(--black-17);
+}
+
+.header-left-search > input:focus {
+  outline: none;
+}
+
+.content-header-left > p {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  color: var(--black-17);
+}
+
+.content-header-right {
+  padding-right: 30px;
+  flex: 2;
+}
+
+.header-right-items {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 20px;
+}
+
+.header-right-item {
+  display: flex;
+  height: 3vh;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  background-color: var(--black-3);
+  border: 1px solid var(--black-7);
+  border-radius: 10px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.header-right-item > svg {
+  height: 13px;
+  width: 13px;
+}
+
+.header-delete-icon {
+  fill: var(--main-green);
+  transform: translateY(-1px);
+}
+
+.header-edit-icon > g > g > g > path {
+  stroke: var(--main-green);
+}
+
+.header-edit-icon > g > g > g > polygon {
+  stroke: var(--main-green);
+}
+
+.header-hide-icon > g > path {
+  stroke: var(--main-green);
+}
+
+.header-right-item > span {
+  font-size: 13px;
+  color: var(--black-17);
+}
+
+.content-subcard-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-subcard-header {
+  height: 7vh;
+}
+
+.content-footer {
+  height: 7vh;
+  /* border-top: 1px solid var(--black-7); */
+}

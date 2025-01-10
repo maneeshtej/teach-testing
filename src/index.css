@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
   --black-1: rgb(10, 10, 10);
@@ -11,6 +11,9 @@
   --black-8: rgb(80, 80, 80);
   --black-13: rgb(130, 130, 130);
   --black-16: rgb(160, 160, 160);
+  --black-17: rgb(170, 170, 170);
+  --main-green: rgb(0, 205, 137);
+  --main-green-dark: rgb(1, 147, 99);
 }
 
 .body {
