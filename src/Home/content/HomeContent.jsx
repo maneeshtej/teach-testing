@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { getTeacherSubstitutions } from "../../utils/fetch";
 import "./homecontent.css";
 import SubstitutionCard from "./components/SubstitutionCard";
+import { Route, useNavigate } from "react-router-dom";
 
-function HomeContent({ tID, tName }) {
+function HomeContent({ tID, tName, toggleNavigateAnim }) {
   const teacherID = tID;
   const teacherName = tName;
   const [teacherSubstitutions, setTeacherSubstitutions] = useState();
   const [error, setError] = useState(null);
+  const naviagate = useNavigate();
 
   useEffect(() => {
     const getSubstitutions = async (teacherID) => {
@@ -41,9 +43,7 @@ function HomeContent({ tID, tName }) {
     }
   }, [error]);
 
-  useEffect(() => {
-    // console.log(teacherSubstitutions);
-  }, [teacherSubstitutions]);
+  useEffect(() => {}, [teacherSubstitutions]);
 
   return (
     <div className="content-wrapper">
@@ -151,6 +151,33 @@ function HomeContent({ tID, tName }) {
                 />
               </svg>
               <span>Delete</span>
+            </div>
+            <div
+              className="header-right-item add"
+              onClick={() => {
+                toggleNavigateAnim(true);
+                setTimeout(() => {
+                  naviagate("/simplest", { state: { teacherID } });
+                }, 200);
+              }}
+            >
+              <svg
+                width="800px"
+                height="800px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="header-new-icon"
+              >
+                <path
+                  d="M4 12H20M12 4V20"
+                  stroke="#000000"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>New</span>
             </div>
           </div>
         </div>

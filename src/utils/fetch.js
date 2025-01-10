@@ -109,4 +109,41 @@ export const getTeacherName = async (id) => {
     }
 }
 
+export const getTeacherTimetable = async (id) => {
+    try {
+        if (!id) {
+            return {date:null, error: "Please enetr ID"};
+        }
+
+        const {data, error} = await supabase
+        .from('Classes')
+        .select('*, Subjects:subject_id(subject_name)')
+        .eq('teacher_id', id);
+
+        const newData = [];
+
+        if (error) {
+            return {data: null, error: error.message};
+        }
+
+        data.forEach((item, index) => {
+            const tempData = {
+                ...data[index],
+                subject_name: data[index].Subjects.subject_name
+            }
+
+            delete tempData.Subjects;
+
+            newData.push(tempData);
+        })
+
+
+        return {data: newData, error: null};
+
+
+    } catch (e) {
+        return {data: null, error: e.message || "Unexpected error"};
+    }
+}
+
 

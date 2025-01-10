@@ -6,7 +6,7 @@ import { getTeacherDetails } from "../../utils/fetch.js";
 import "./home.css";
 import HomeContent from "../content/HomeContent.jsx";
 
-function Home() {
+function Home({ toggleNavigateAnim }) {
   const navigate = useNavigate();
   const useremail = Cookies.get("email");
   const [filterIndex, setFilterIndex] = useState(0);
@@ -17,8 +17,8 @@ function Home() {
 
   const handleMouseMove = (e) => {
     const rect = homeContentRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left; // Mouse X-coordinate relative to the element
-    const y = e.clientY - rect.top; // Mouse Y-coordinate relative to the element
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     homeContentRef.current.style.setProperty("--x", `${x}px`);
     homeContentRef.current.style.setProperty("--y", `${y}px`);
@@ -246,7 +246,11 @@ function Home() {
             </div>
           </div>
           <div className="home-content body">
-            <HomeContent tName={teacherName} tID={teacherID}></HomeContent>
+            <HomeContent
+              tName={teacherName}
+              tID={teacherID}
+              toggleNavigateAnim={toggleNavigateAnim}
+            ></HomeContent>
           </div>
         </div>
       </section>

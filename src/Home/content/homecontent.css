@@ -113,6 +113,19 @@
   stroke: var(--main-green);
 }
 
+.header-new-icon > path {
+  stroke: var(--black-2);
+}
+
+.header-right-item.add {
+  background-color: var(--main-green-dark);
+  border: 1px solid var(--black-1);
+}
+
+.header-right-item.add > span{
+  color: var(--black-2);
+}
+
 .header-right-item > span {
   font-size: 13px;
   color: var(--black-17);
@@ -133,3 +146,5 @@
   height: 7vh;
   /* border-top: 1px solid var(--black-7); */
 }
+
+
