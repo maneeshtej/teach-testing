@@ -1,12 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "./substitutioncard.css";
 
 function SubstitutionCard({ subData, index, number }) {
   const teacherSubstitutions = subData;
+  const subcardRef = useRef(null);
 
   useEffect(() => {
     console.log(teacherSubstitutions);
   }, [teacherSubstitutions]);
+
+  const handleMouseMove = (e) => {
+    const rect = subcardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    subcardRef.current.style.setProperty("--x", `${x}px`);
+    subcardRef.current.style.setProperty("--y", `${y}px`);
+  };
+
   if (!index)
     return (
       <div className="subcard-wrapper">

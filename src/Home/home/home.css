@@ -151,8 +151,34 @@
 
 .home-content {
   width: 85vw;
+  position: relative;
   background-color: var(--black-2);
+  overflow: hidden; /* Ensures the gradient doesn't spill outside */
 }
+
+.home-content::before {
+  --size: 0; 
+  content: "";
+  position: absolute;
+  left: var(--x); 
+  top: var(--y); 
+  width: var(--size); 
+  height: var(--size);
+  background: radial-gradient(
+    circle closest-side,
+    rgba(29, 29, 29, 0.5), 
+    transparent 
+  );
+  transform: translate(-50%, -50%); 
+  transition: width 0.2s ease, height 0.2s ease; 
+  pointer-events: none; 
+  z-index: 1;
+}
+
+.home-content:hover::before {
+  --size: 300px; 
+}
+
 
 .home-content-header {
   width: 85vw;

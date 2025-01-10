@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { checkSession, handleLogOut } from "../../Login/login.js";
@@ -13,6 +13,16 @@ function Home() {
   const [teacherData, setTeacherData] = useState();
   const [teacherID, setTeacherID] = useState();
   const [teacherName, setTeacherName] = useState();
+  const homeContentRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const rect = homeContentRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left; // Mouse X-coordinate relative to the element
+    const y = e.clientY - rect.top; // Mouse Y-coordinate relative to the element
+
+    homeContentRef.current.style.setProperty("--x", `${x}px`);
+    homeContentRef.current.style.setProperty("--y", `${y}px`);
+  };
 
   useEffect(() => {
     const fetchTeacherData = async () => {
@@ -202,7 +212,11 @@ function Home() {
             <h3>{teacherName}</h3>
           </div>
         </div>
-        <div className="home-content">
+        <div
+          className="home-content"
+          ref={homeContentRef}
+          onMouseMove={handleMouseMove}
+        >
           <div className="home-content-header">
             <div className="home-content-header-left"></div>
             <div className="home-content-header-right"></div>
