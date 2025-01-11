@@ -103,4 +103,27 @@
   border-radius: 10px;
   height: 5vh;
   min-width: 10vw;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+}
+
+.cs-selector-period-item:hover {
+  background-color: var(--black-9);
+  /* border: 1px solid var(--black-7); */
+}
+
+@keyframes perioditemAnim {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.cs-selector-period-item-anim {
+  animation: perioditemAnim 200ms ease-out;
 }

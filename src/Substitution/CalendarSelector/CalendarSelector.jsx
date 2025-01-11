@@ -7,6 +7,7 @@ function CalendarSelector({ timeTable }) {
   const [weekDates, setWeekDates] = useState([]);
   const teacherTimetable = timeTable;
   const [convertedTimetable, setConvertedTimetable] = useState();
+  const [selectedPeriods, setSelectedPeriods] = useState();
 
   const weeks = [
     "Sunday",
@@ -47,6 +48,7 @@ function CalendarSelector({ timeTable }) {
         week: weeks[currentDate.getDay()],
         monthn: currentDate.getMonth(),
         weekn: currentDate.getDay(),
+        yearn: currentDate.getFullYear(),
       });
     }
 
@@ -80,6 +82,63 @@ function CalendarSelector({ timeTable }) {
     console.log(convertedTimetable);
   }, [convertedTimetable]);
 
+  const getFormattedKey = (date, period) => {
+    if (!date || !period) {
+      return;
+    }
+    const formattedDate = `${date.yearn}-${date.monthn + 1}-${date.day}`;
+    const formattedKey = `${period.class_id}_${formattedDate}`;
+
+    return formattedKey;
+  };
+
+  const handlePeriodClick = (date, period) => {
+    if (!date || !period) {
+      return;
+    }
+
+    const formattedKey = getFormattedKey(date, period);
+
+    setSelectedPeriods((prevState) => {
+      if (!date || !period) {
+        return prevState;
+      }
+
+      const newSelectedPeriods = { ...prevState };
+
+      if (!newSelectedPeriods[formattedKey]) {
+        newSelectedPeriods[formattedKey] = period;
+
+        return newSelectedPeriods;
+      }
+
+      if (newSelectedPeriods[formattedKey]) {
+        if (newSelectedPeriods[formattedKey] == period) {
+          delete newSelectedPeriods[formattedKey];
+        }
+      }
+
+      return newSelectedPeriods;
+    });
+  };
+
+  const isSelected = (date, period) => {
+    if (!date || !period) {
+      return;
+    }
+
+    const formattedKey = getFormattedKey(date, period);
+
+    if (selectedPeriods[formattedKey]) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    console.log(selectedPeriods);
+  }, [selectedPeriods]);
   return (
     <div className="cs-wrapper">
       <div className="cs-header">
@@ -126,7 +185,34 @@ function CalendarSelector({ timeTable }) {
                 typeof convertedTimetable[date.weekn] === "object" ? (
                   Object.keys(convertedTimetable[date.weekn]).map(
                     (item, idx) => (
-                      <div className="cs-selector-period-item" key={idx}>
+                      <div
+                        className={`cs-selector-period-item ${
+                          isSelected(date, convertedTimetable[date.weekn][item])
+                            ? "cs-selector-period-item-anim"
+                            : ""
+                        }`}
+                        key={idx}
+                        onClick={() => {
+                          handlePeriodClick(
+                            date,
+                            convertedTimetable[date.weekn][item]
+                          );
+                        }}
+                        style={{
+                          backgroundColor: isSelected(
+                            date,
+                            convertedTimetable[date.weekn][item]
+                          )
+                            ? "rgb(0, 205, 137)"
+                            : "",
+                          color: isSelected(
+                            date,
+                            convertedTimetable[date.weekn][item]
+                          )
+                            ? "black"
+                            : "",
+                        }}
+                      >
                         {convertedTimetable[date.weekn][item].subject_name}
                       </div>
                     )
