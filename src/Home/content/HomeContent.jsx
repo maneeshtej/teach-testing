@@ -25,16 +25,6 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
   useEffect(() => {
     const getSubstitutions = async (teacherID) => {
       try {
-        const localSubstitutions = JSON.parse(
-          localStorage.getItem("teacherSubstitution")
-        );
-
-        if (localSubstitutions) {
-          setTeacherSubstitutions(localSubstitutions);
-          console.log("returnign");
-          return;
-        }
-
         if (!teacherID) {
           setError("Please enter ID");
           return;
@@ -210,7 +200,7 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
                 // }, 200);
                 handleNavigateAnim(
                   "/simplest",
-                  { teacherID },
+                  { teacherID: teacherID },
                   setAnim,
                   "toLeft"
                 );

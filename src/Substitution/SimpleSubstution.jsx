@@ -6,7 +6,7 @@ import CalendarSelector from "./CalendarSelector/CalendarSelector";
 
 function SimpleSubstution({ handleNavigateAnim }) {
   const location = useLocation();
-  console.log(location.state.dir);
+  // console.log(location.state.dir);
   const teacherID = location.state.teacherID;
   const dir = location?.state?.dir ?? "";
   const [teacherTimetable, setTeacherTimetable] = useState();
@@ -22,7 +22,7 @@ function SimpleSubstution({ handleNavigateAnim }) {
     }
 
     setTimeout(() => {
-      console.log("runnin");
+      // console.log("runnin");
       setAnim("");
     }, 300);
   }, [dir]);
@@ -64,7 +64,7 @@ function SimpleSubstution({ handleNavigateAnim }) {
 
       if (data) {
         setTeacherTimetable(data);
-        localStorage.setItem("teacherTimetable", JSON.stringify(data));
+        // localStorage.setItem("teacherTimetable", JSON.stringify(data));
       }
 
       //   console.log(data);
@@ -72,15 +72,11 @@ function SimpleSubstution({ handleNavigateAnim }) {
 
     const localTimeTable = JSON.parse(localStorage.getItem("teacherTimetable"));
 
-    if (localTimeTable) {
-      setTeacherTimetable(localTimeTable);
-    } else {
-      getTimetable();
-    }
+    getTimetable();
   }, [teacherID]);
 
   useEffect(() => {
-    console.log(selectedClasses);
+    // console.log(selectedClasses);
   }, [selectedClasses]);
 
   const handleClearAll = () => {
@@ -146,9 +142,11 @@ function SimpleSubstution({ handleNavigateAnim }) {
               //     state: { selectedClasses },
               //   });
               // }, 300);
+              // console.log("from simple", location.state);
               handleNavigateAnim(
                 "/confirmSubstitution",
-                { selectedClasses },
+
+                { selectedClasses, teacherID: teacherID },
                 setAnim,
                 "toLeft"
               );

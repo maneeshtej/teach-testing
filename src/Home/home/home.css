@@ -166,7 +166,7 @@
   height: var(--size);
   background: radial-gradient(
     circle closest-side,
-    rgba(29, 29, 29, 0.5), 
+    rgba(26, 26, 26, 0.5), 
     transparent 
   );
   transform: translate(-50%, -50%); 
@@ -176,7 +176,7 @@
 }
 
 .home-content:hover::before {
-  --size: 300px; 
+  --size: 500px; 
 }
 
 

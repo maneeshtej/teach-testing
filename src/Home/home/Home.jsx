@@ -9,14 +9,14 @@ import HomeContent from "../content/HomeContent.jsx";
 function Home({ handleNavigateAnim }) {
   const navigate = useNavigate();
   const useremail = Cookies.get("email");
-  const [filterIndex, setFilterIndex] = useState(0);
+  const [filterIndex, setFilterIndex] = useState(1);
   const [teacherData, setTeacherData] = useState();
   const [teacherID, setTeacherID] = useState();
   const [teacherName, setTeacherName] = useState();
   const homeContentRef = useRef(null);
   const [anim, setAnim] = useState(null);
   const location = useLocation();
-  console.log("Location State:", location.state);
+  // console.log("Location State:", location.state);
 
   const dir = location?.state?.dir ?? "";
 
@@ -235,7 +235,10 @@ function Home({ handleNavigateAnim }) {
           <div className="home-content-header">
             <div className="home-content-header-left"></div>
             <div className="home-content-header-right"></div>
-            <div className="home-content-header-last">
+            <div
+              className="home-content-header-last"
+              onClick={() => handleLogOut()}
+            >
               <svg
                 className="power-icon"
                 width="23px"

@@ -40,7 +40,6 @@ function AppRoutes({ toggleNavigateAnim }) {
           : "",
     };
 
-    // console.log(newState);
     setTimeout(() => {
       navigate(route, { state: newState });
     }, 200);

@@ -146,4 +146,24 @@ export const getTeacherTimetable = async (id) => {
     }
 }
 
+export const fetchAllTeachers = async () => {
+
+    try {
+        const {data, error} = await supabase
+    .from('Teachers')
+    .select('*');
+
+    if (error) {
+        return {data: null, error:error.message}
+    }
+
+    if (data) {
+        return {data, error:null}
+    }
+    } catch (e) {
+        return {data: null, error: e.message};
+    }
+    
+}
+
 
