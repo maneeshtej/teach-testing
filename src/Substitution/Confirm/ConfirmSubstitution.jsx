@@ -30,7 +30,6 @@ function ConfirmSubstitution({ handleNavigateAnim }) {
         <div
           className="cst-header"
           onClick={() => {
-            localStorage.removeItem("selectedPeriods");
             handleNavigateAnim("/simplest", null, setAnim, "toRight");
           }}
         >
