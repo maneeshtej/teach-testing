@@ -4,12 +4,23 @@ import "./homecontent.css";
 import SubstitutionCard from "./components/SubstitutionCard";
 import { Route, useNavigate } from "react-router-dom";
 
-function HomeContent({ tID, tName, toggleNavigateAnim }) {
+function HomeContent({ tID, tName, toggleNavigateAnim, filterParam }) {
   const teacherID = tID;
   const teacherName = tName;
   const [teacherSubstitutions, setTeacherSubstitutions] = useState();
   const [error, setError] = useState(null);
   const naviagate = useNavigate();
+  const [filter, setFilter] = useState("sent");
+
+  useEffect(() => {
+    if (filterParam === 1) {
+      setFilter("sent");
+    } else if (filterParam === 0) {
+      setFilter("recieved");
+    } else {
+      setFilter("draft");
+    }
+  }, [filterParam]);
 
   useEffect(() => {
     const getSubstitutions = async (teacherID) => {
@@ -44,6 +55,33 @@ function HomeContent({ tID, tName, toggleNavigateAnim }) {
   }, [error]);
 
   useEffect(() => {}, [teacherSubstitutions]);
+
+  const subFilter = (sub) => {
+    const type = filter;
+    const data = teacherSubstitutions[sub];
+    if (!type || !data || !teacherID) {
+      console.error("input error");
+      return;
+    }
+
+    if (type == "sent") {
+      // console.log("sub data", teacherSubstitutions[data]);
+      if (!data.teacher_id) {
+        console.error("teacherID not present in data");
+        return;
+      }
+      if (data.teacher_id == teacherID) {
+        return true;
+      }
+    } else if (type == "recieved") {
+      if (!data.teacher_id) return;
+      if (data.sub_teacher_id == teacherID) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  };
 
   return (
     <div className="content-wrapper">
@@ -155,7 +193,7 @@ function HomeContent({ tID, tName, toggleNavigateAnim }) {
             <div
               className="header-right-item add"
               onClick={() => {
-                toggleNavigateAnim(true);
+                toggleNavigateAnim();
                 setTimeout(() => {
                   naviagate("/simplest", { state: { teacherID } });
                 }, 200);
@@ -190,14 +228,20 @@ function HomeContent({ tID, tName, toggleNavigateAnim }) {
         ></SubstitutionCard>
         {teacherSubstitutions &&
         Object.keys(teacherSubstitutions).length > 0 ? (
-          Object.keys(teacherSubstitutions).map((sub, index) => (
-            <SubstitutionCard
-              subData={teacherSubstitutions[sub]} // Access the value properly
-              index={false}
-              number={index}
-              key={index}
-            ></SubstitutionCard>
-          ))
+          Object.keys(teacherSubstitutions).map((sub, index) => {
+            if (subFilter(sub)) {
+              return (
+                <SubstitutionCard
+                  subData={teacherSubstitutions[sub]}
+                  index={false}
+                  number={index}
+                  key={index}
+                ></SubstitutionCard>
+              );
+            } else {
+              return <></>;
+            }
+          })
         ) : (
           <p
             style={{
@@ -205,7 +249,7 @@ function HomeContent({ tID, tName, toggleNavigateAnim }) {
             }}
           >
             Loading...
-          </p> // Placeholder message when no data
+          </p>
         )}
       </div>
 

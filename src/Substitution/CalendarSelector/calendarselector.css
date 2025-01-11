@@ -1,6 +1,6 @@
 .cs-wrapper {
-  height: 70%;
-  width: 70%;
+  height: 80%;
+  /* width: 90%; */
   background-color: var(--black-3);
   border: 1px solid var(--black-5);
   z-index: 2;
@@ -93,7 +93,7 @@
 }
 
 .cs-selector-period-item {
-  flex: 1;
+  /* flex: 1; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +102,7 @@
   background-color: var(--black-7);
   border-radius: 10px;
   height: 5vh;
-  min-width: 10vw;
+  min-width: 9vw;
   transition: all 200ms ease-in-out;
   cursor: pointer;
 }

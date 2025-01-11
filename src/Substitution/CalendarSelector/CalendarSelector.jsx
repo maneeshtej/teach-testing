@@ -2,12 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./calendarselector.css";
 import { convertTimetable } from "../../utils/convert";
 
-function CalendarSelector({ timeTable }) {
+function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weekDates, setWeekDates] = useState([]);
   const teacherTimetable = timeTable;
   const [convertedTimetable, setConvertedTimetable] = useState();
-  const [selectedPeriods, setSelectedPeriods] = useState();
+  //   const [clearAll, setclearAll] = clearall;
+  const [selectedPeriods, setSelectedPeriods] = useState({});
+
+  useEffect(() => {
+    if (!clearall) {
+      return;
+    } else if (clearall) {
+      setSelectedPeriods({});
+    }
+  }, [clearall]);
 
   const weeks = [
     "Sunday",
@@ -71,22 +80,23 @@ function CalendarSelector({ timeTable }) {
   }, [currentDate]);
 
   useEffect(() => {
-    // console.log(teacherTimetable);
     const convertedTable = convertTimetable(teacherTimetable);
     if (convertedTable) {
       setConvertedTimetable(convertedTable);
     }
   }, [teacherTimetable]);
 
-  useEffect(() => {
-    console.log(convertedTimetable);
-  }, [convertedTimetable]);
+  useEffect(() => {}, [convertedTimetable]);
+
+  const formatDate = (date) => {
+    return `${date.yearn}-${date.monthn + 1}-${date.day}`;
+  };
 
   const getFormattedKey = (date, period) => {
     if (!date || !period) {
       return;
     }
-    const formattedDate = `${date.yearn}-${date.monthn + 1}-${date.day}`;
+    const formattedDate = formatDate(date);
     const formattedKey = `${period.class_id}_${formattedDate}`;
 
     return formattedKey;
@@ -105,17 +115,22 @@ function CalendarSelector({ timeTable }) {
       }
 
       const newSelectedPeriods = { ...prevState };
+      const newPeriod = {
+        ...date,
+        ...period,
+        sub_teacher: null,
+        sub_teacher_id: null,
+      };
 
       if (!newSelectedPeriods[formattedKey]) {
-        newSelectedPeriods[formattedKey] = period;
+        newSelectedPeriods[formattedKey] = newPeriod;
 
         return newSelectedPeriods;
       }
 
       if (newSelectedPeriods[formattedKey]) {
-        if (newSelectedPeriods[formattedKey] == period) {
-          delete newSelectedPeriods[formattedKey];
-        }
+        const { [formattedKey]: _, ...rest } = newSelectedPeriods;
+        return rest;
       }
 
       return newSelectedPeriods;
@@ -127,7 +142,13 @@ function CalendarSelector({ timeTable }) {
       return;
     }
 
+    if (!selectedPeriods) {
+      return;
+    }
+
     const formattedKey = getFormattedKey(date, period);
+
+    if (!formattedKey) return;
 
     if (selectedPeriods[formattedKey]) {
       return true;
@@ -137,7 +158,7 @@ function CalendarSelector({ timeTable }) {
   };
 
   useEffect(() => {
-    console.log(selectedPeriods);
+    updateClasses(selectedPeriods);
   }, [selectedPeriods]);
   return (
     <div className="cs-wrapper">
@@ -187,7 +208,12 @@ function CalendarSelector({ timeTable }) {
                     (item, idx) => (
                       <div
                         className={`cs-selector-period-item ${
-                          isSelected(date, convertedTimetable[date.weekn][item])
+                          isSelected(
+                            date,
+                            convertedTimetable[date.weekn][item]
+                              ? convertedTimetable[date.weekn][item]
+                              : null
+                          )
                             ? "cs-selector-period-item-anim"
                             : ""
                         }`}
@@ -218,7 +244,12 @@ function CalendarSelector({ timeTable }) {
                     )
                   )
                 ) : (
-                  <div className="cs-selector-period-item">
+                  <div
+                    className="cs-selector-period-item"
+                    style={{
+                      flex: 1,
+                    }}
+                  >
                     No periods available
                   </div>
                 )}

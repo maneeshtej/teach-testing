@@ -250,6 +250,7 @@ function Home({ toggleNavigateAnim }) {
               tName={teacherName}
               tID={teacherID}
               toggleNavigateAnim={toggleNavigateAnim}
+              filterParam={filterIndex}
             ></HomeContent>
           </div>
         </div>

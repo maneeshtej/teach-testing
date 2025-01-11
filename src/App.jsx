@@ -8,13 +8,20 @@ import Home from "./Home/home/Home.jsx";
 import SignUp from "./Login/signup";
 import SimpleSubstution from "./Substitution/SimpleSubstution.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import ConfirmSubstitution from "./Substitution/Confirm/ConfirmSubstitution.jsx";
 
 function App() {
   const [count, setCount] = useState(0);
   const [navigateAnim, setNavigateAnim] = useState(false);
 
-  const toggleNavigateAnim = (state) => {
-    setNavigateAnim(state);
+  const toggleNavigateAnim = () => {
+    setNavigateAnim((prevState) => {
+      const newState = !prevState;
+      setTimeout(() => {
+        setNavigateAnim(prevState);
+      }, 300);
+      return newState;
+    });
   };
 
   return (
@@ -36,6 +43,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <SimpleSubstution toggleNavigateAnim={toggleNavigateAnim} />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="/confirmSubstitution"
+            element={
+              <ProtectedRoute>
+                <ConfirmSubstitution />
               </ProtectedRoute>
             }
           ></Route>

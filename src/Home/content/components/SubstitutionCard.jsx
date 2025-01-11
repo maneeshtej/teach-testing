@@ -6,7 +6,7 @@ function SubstitutionCard({ subData, index, number }) {
   const subcardRef = useRef(null);
 
   useEffect(() => {
-    // console.log(teacherSubstitutions);
+    console.log(teacherSubstitutions);
   }, [teacherSubstitutions]);
 
   const handleMouseMove = (e) => {

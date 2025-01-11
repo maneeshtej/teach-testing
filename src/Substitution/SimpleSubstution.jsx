@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./simplesubstitution.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getTeacherTimetable } from "../utils/fetch";
 import CalendarSelector from "./CalendarSelector/CalendarSelector";
 
@@ -9,6 +9,19 @@ function SimpleSubstution({ toggleNavigateAnim }) {
   const teacherID = location.state.teacherID;
   const [teacherTimetable, setTeacherTimetable] = useState();
   const SimpestRef = useRef(null);
+  const [selectedClasses, setSelectedClasses] = useState({});
+  const [clearAll, setClearAll] = useState(false);
+  const navigate = useNavigate();
+
+  const updateClasses = (classes) => {
+    if (!classes) {
+      return;
+    }
+
+    setSelectedClasses(classes);
+  };
+
+  useEffect(() => {}, [selectedClasses]);
 
   const handleMouseMove = (e) => {
     const rect = SimpestRef.current.getBoundingClientRect();
@@ -18,10 +31,6 @@ function SimpleSubstution({ toggleNavigateAnim }) {
     SimpestRef.current.style.setProperty("--x", `${x}px`);
     SimpestRef.current.style.setProperty("--y", `${y}px`);
   };
-
-  setTimeout(() => {
-    toggleNavigateAnim(false);
-  }, 0);
 
   useEffect(() => {
     // console.log(teacherID);
@@ -40,9 +49,32 @@ function SimpleSubstution({ toggleNavigateAnim }) {
     getTimetable();
   }, [teacherID]);
 
+  //   useEffect(() => {
+  //     console.log(selectedClasses);
+  //   }, [selectedClasses]);
+
+  const handleClearAll = () => {
+    setClearAll(true);
+
+    setTimeout(() => {
+      setClearAll(false);
+    }, 50);
+  };
+
   return (
     <div className="simplest-wrapper">
-      <div className="simplest-header"></div>
+      <div className="simplest-header">
+        <span
+          onClick={() => {
+            toggleNavigateAnim();
+            setTimeout(() => {
+              navigate("/home");
+            }, 300);
+          }}
+        >
+          Back
+        </span>
+      </div>
       <div
         className="simplest-content"
         ref={SimpestRef}
@@ -54,12 +86,48 @@ function SimpleSubstution({ toggleNavigateAnim }) {
             <div className="simplest-header-right-items">
               <div className="simplest-header-right-item">Help</div>
               <div className="simplest-header-right-item">Draft</div>
-              <div className="simplest-header-right-item">Clear All</div>
+              <div
+                className="simplest-header-right-item"
+                onClick={() => handleClearAll()}
+              >
+                Clear All
+              </div>
             </div>
           </div>
         </div>
         <div className="simplest-content-body">
-          <CalendarSelector timeTable={teacherTimetable} />
+          <CalendarSelector
+            timeTable={teacherTimetable}
+            updateClasses={updateClasses}
+            clearall={clearAll}
+            teacherId={teacherID}
+          />
+        </div>
+        <div className="simplest-content-footer">
+          <button
+            className="simplest-content-footer-next"
+            onClick={() => {
+              toggleNavigateAnim();
+              setTimeout(() => {
+                navigate("/confirmSubstitution", {
+                  state: { selectedClasses },
+                });
+              }, 300);
+            }}
+            style={{
+              transform:
+                Object.keys(selectedClasses).length === 0
+                  ? "translateY(200px)"
+                  : "translateY(0px)",
+              // visibility:
+              //   Object.keys(selectedClasses).length === 0
+              //     ? "hidden"
+              //     : "visible",
+              // opacity: Object.keys(selectedClasses).length === 0 ? 0 : 1,
+            }}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
