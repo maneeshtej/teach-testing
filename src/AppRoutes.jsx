@@ -70,7 +70,7 @@ function AppRoutes({ toggleNavigateAnim }) {
         path="/confirmSubstitution"
         element={
           <ProtectedRoute>
-            <ConfirmSubstitution />
+            <ConfirmSubstitution handleNavigateAnim={handleNavigateAnim} />
           </ProtectedRoute>
         }
       />

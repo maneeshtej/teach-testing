@@ -7,8 +7,13 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
   const [weekDates, setWeekDates] = useState([]);
   const teacherTimetable = timeTable;
   const [convertedTimetable, setConvertedTimetable] = useState();
+  const localSelectedPeriods = JSON.parse(
+    localStorage.getItem("selectedPeriods")
+  );
   //   const [clearAll, setclearAll] = clearall;
-  const [selectedPeriods, setSelectedPeriods] = useState({});
+  const [selectedPeriods, setSelectedPeriods] = useState(
+    localSelectedPeriods ? localSelectedPeriods : {}
+  );
 
   useEffect(() => {
     if (!clearall) {
@@ -118,12 +123,18 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
       const newPeriod = {
         ...date,
         ...period,
+        date: formatDate(date),
         sub_teacher: null,
         sub_teacher_id: null,
       };
 
       if (!newSelectedPeriods[formattedKey]) {
         newSelectedPeriods[formattedKey] = newPeriod;
+
+        localStorage.setItem(
+          "selectedPeriods",
+          JSON.stringify(newSelectedPeriods)
+        );
 
         return newSelectedPeriods;
       }

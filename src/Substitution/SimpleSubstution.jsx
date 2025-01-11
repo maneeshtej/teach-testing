@@ -79,9 +79,9 @@ function SimpleSubstution({ handleNavigateAnim }) {
     }
   }, [teacherID]);
 
-  //   useEffect(() => {
-  //     console.log(selectedClasses);
-  //   }, [selectedClasses]);
+  useEffect(() => {
+    console.log(selectedClasses);
+  }, [selectedClasses]);
 
   const handleClearAll = () => {
     setClearAll(true);
