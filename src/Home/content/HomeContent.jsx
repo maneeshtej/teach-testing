@@ -4,7 +4,7 @@ import "./homecontent.css";
 import SubstitutionCard from "./components/SubstitutionCard";
 import { Route, useNavigate } from "react-router-dom";
 
-function HomeContent({ tID, tName, toggleNavigateAnim, filterParam }) {
+function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
   const teacherID = tID;
   const teacherName = tName;
   const [teacherSubstitutions, setTeacherSubstitutions] = useState();
@@ -25,6 +25,16 @@ function HomeContent({ tID, tName, toggleNavigateAnim, filterParam }) {
   useEffect(() => {
     const getSubstitutions = async (teacherID) => {
       try {
+        const localSubstitutions = JSON.parse(
+          localStorage.getItem("teacherSubstitution")
+        );
+
+        if (localSubstitutions) {
+          setTeacherSubstitutions(localSubstitutions);
+          console.log("returnign");
+          return;
+        }
+
         if (!teacherID) {
           setError("Please enter ID");
           return;
@@ -39,6 +49,7 @@ function HomeContent({ tID, tName, toggleNavigateAnim, filterParam }) {
 
         if (data) {
           setTeacherSubstitutions(data);
+          localStorage.setItem("teacherSubstitution", JSON.stringify(data));
         }
       } catch (e) {
         setError(e.message || "Error fetching substitutions");
@@ -193,10 +204,16 @@ function HomeContent({ tID, tName, toggleNavigateAnim, filterParam }) {
             <div
               className="header-right-item add"
               onClick={() => {
-                toggleNavigateAnim();
-                setTimeout(() => {
-                  naviagate("/simplest", { state: { teacherID } });
-                }, 200);
+                // toggleNavigateAnim();
+                // setTimeout(() => {
+                //   naviagate("/simplest", { state: { teacherID } });
+                // }, 200);
+                handleNavigateAnim(
+                  "/simplest",
+                  { teacherID },
+                  setAnim,
+                  "toLeft"
+                );
               }}
             >
               <svg

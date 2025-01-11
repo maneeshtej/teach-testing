@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { checkSession, handleLogOut } from "../../Login/login.js";
 import { getTeacherDetails } from "../../utils/fetch.js";
 import "./home.css";
 import HomeContent from "../content/HomeContent.jsx";
 
-function Home({ toggleNavigateAnim }) {
+function Home({ handleNavigateAnim }) {
   const navigate = useNavigate();
   const useremail = Cookies.get("email");
   const [filterIndex, setFilterIndex] = useState(0);
@@ -14,6 +14,19 @@ function Home({ toggleNavigateAnim }) {
   const [teacherID, setTeacherID] = useState();
   const [teacherName, setTeacherName] = useState();
   const homeContentRef = useRef(null);
+  const [anim, setAnim] = useState(null);
+  const location = useLocation();
+  const dir = location.state.dir;
+
+  useEffect(() => {
+    if (dir) {
+      setAnim(dir);
+    }
+
+    setTimeout(() => {
+      setAnim("");
+    }, 300);
+  }, [dir]);
 
   const handleMouseMove = (e) => {
     const rect = homeContentRef.current.getBoundingClientRect();
@@ -61,7 +74,7 @@ function Home({ toggleNavigateAnim }) {
   // console.log(teacherData);
 
   return (
-    <div>
+    <div className={anim ? anim : ""}>
       <section className="home-main">
         <div className="home-sidebar">
           <div className="home-sidebar-header">Teacher Substitution</div>
@@ -249,8 +262,9 @@ function Home({ toggleNavigateAnim }) {
             <HomeContent
               tName={teacherName}
               tID={teacherID}
-              toggleNavigateAnim={toggleNavigateAnim}
               filterParam={filterIndex}
+              handleNavigateAnim={handleNavigateAnim}
+              setAnim={setAnim}
             ></HomeContent>
           </div>
         </div>

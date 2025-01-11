@@ -43,3 +43,59 @@ body {
   opacity: 1;
   transition: all 300ms ease-in-out;
 }
+
+@keyframes fromLeft {
+  0% {
+    transform: translateX(-400px);
+    opacity: 0;
+  } 100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes fromRight {
+  0% {
+    transform: translateX(400px);
+    opacity: 0;
+  } 100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes toLeft {
+  0% {
+    transform: translateX(0px);
+    opacity: 1;
+  } 100% {
+    transform: translateX(-400px);
+    opacity: 0;
+  }
+}
+
+@keyframes toRight {
+  0% {
+    transform: translateX(0px);
+    opacity: 1;
+  } 100% {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+.main-anim-to-left {
+  animation: toLeft 200ms linear;
+}
+
+.main-anim-to-right {
+  animation: toRight 200ms linear;
+}
+
+.main-anim-from-left {
+  animation: fromLeft 200ms linear;
+}
+
+.main-anim-from-right {
+  animation: fromRight 200ms linear;
+}

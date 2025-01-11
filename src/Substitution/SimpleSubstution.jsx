@@ -4,14 +4,34 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getTeacherTimetable } from "../utils/fetch";
 import CalendarSelector from "./CalendarSelector/CalendarSelector";
 
-function SimpleSubstution({ toggleNavigateAnim }) {
+function SimpleSubstution({ handleNavigateAnim }) {
   const location = useLocation();
+  console.log(location.state.dir);
   const teacherID = location.state.teacherID;
+  const dir = location.state.dir;
   const [teacherTimetable, setTeacherTimetable] = useState();
   const SimpestRef = useRef(null);
   const [selectedClasses, setSelectedClasses] = useState({});
   const [clearAll, setClearAll] = useState(false);
   const navigate = useNavigate();
+  const [anim, setAnim] = useState();
+
+  useEffect(() => {
+    if (dir) {
+      setAnim(dir);
+    }
+
+    setTimeout(() => {
+      console.log("runnin");
+      setAnim("");
+    }, 300);
+  }, [dir]);
+
+  useEffect(() => {
+    if (!teacherID) {
+      console.error("Teacher not not recieved");
+    }
+  }, []);
 
   const updateClasses = (classes) => {
     if (!classes) {
@@ -34,6 +54,7 @@ function SimpleSubstution({ toggleNavigateAnim }) {
 
   useEffect(() => {
     // console.log(teacherID);
+
     const getTimetable = async () => {
       if (!teacherID) return;
 
@@ -41,12 +62,21 @@ function SimpleSubstution({ toggleNavigateAnim }) {
 
       if (error) console.error(error);
 
-      if (data) setTeacherTimetable(data);
+      if (data) {
+        setTeacherTimetable(data);
+        localStorage.setItem("teacherTimetable", JSON.stringify(data));
+      }
 
       //   console.log(data);
     };
 
-    getTimetable();
+    const localTimeTable = JSON.parse(localStorage.getItem("teacherTimetable"));
+
+    if (localTimeTable) {
+      setTeacherTimetable(localTimeTable);
+    } else {
+      getTimetable();
+    }
   }, [teacherID]);
 
   //   useEffect(() => {
@@ -62,14 +92,16 @@ function SimpleSubstution({ toggleNavigateAnim }) {
   };
 
   return (
-    <div className="simplest-wrapper">
+    <div className={`simplest-wrapper ${anim ? anim : ""}`}>
       <div className="simplest-header">
         <span
           onClick={() => {
-            toggleNavigateAnim();
-            setTimeout(() => {
-              navigate("/home");
-            }, 300);
+            handleNavigateAnim(
+              "/home",
+              { state: "transferred" },
+              setAnim,
+              "toRight"
+            );
           }}
         >
           Back
@@ -107,12 +139,18 @@ function SimpleSubstution({ toggleNavigateAnim }) {
           <button
             className="simplest-content-footer-next"
             onClick={() => {
-              toggleNavigateAnim();
-              setTimeout(() => {
-                navigate("/confirmSubstitution", {
-                  state: { selectedClasses },
-                });
-              }, 300);
+              // toggleNavigateAnim();
+              // setTimeout(() => {
+              //   navigate("/confirmSubstitution", {
+              //     state: { selectedClasses },
+              //   });
+              // }, 300);
+              handleNavigateAnim(
+                "/confirmSubstitution",
+                { selectedClasses },
+                setAnim,
+                "toLeft"
+              );
             }}
             style={{
               transform:
