@@ -96,6 +96,7 @@ function SimpleSubstution({ handleNavigateAnim }) {
       <div className="simplest-header">
         <span
           onClick={() => {
+            localStorage.removeItem("selectedPeriods");
             handleNavigateAnim(
               "/home",
               { state: "transferred" },
