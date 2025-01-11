@@ -16,17 +16,19 @@ function Home({ handleNavigateAnim }) {
   const homeContentRef = useRef(null);
   const [anim, setAnim] = useState(null);
   const location = useLocation();
-  const dir = location.state.dir;
+  console.log("Location State:", location.state);
 
-  useEffect(() => {
-    if (dir) {
-      setAnim(dir);
-    }
+  // const dir = location?.state?.dir ?? "";
 
-    setTimeout(() => {
-      setAnim("");
-    }, 300);
-  }, [dir]);
+  // useEffect(() => {
+  //   if (dir) {
+  //     setAnim(dir);
+  //   }
+
+  //   setTimeout(() => {
+  //     setAnim("");
+  //   }, 300);
+  // }, [dir]);
 
   const handleMouseMove = (e) => {
     const rect = homeContentRef.current.getBoundingClientRect();
