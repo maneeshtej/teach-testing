@@ -18,17 +18,17 @@ function Home({ handleNavigateAnim }) {
   const location = useLocation();
   console.log("Location State:", location.state);
 
-  // const dir = location?.state?.dir ?? "";
+  const dir = location?.state?.dir ?? "";
 
-  // useEffect(() => {
-  //   if (dir) {
-  //     setAnim(dir);
-  //   }
+  useEffect(() => {
+    if (dir) {
+      setAnim(dir);
+    }
 
-  //   setTimeout(() => {
-  //     setAnim("");
-  //   }, 300);
-  // }, [dir]);
+    setTimeout(() => {
+      setAnim("");
+    }, 300);
+  }, [dir]);
 
   const handleMouseMove = (e) => {
     const rect = homeContentRef.current.getBoundingClientRect();

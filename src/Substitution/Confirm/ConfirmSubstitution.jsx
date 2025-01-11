@@ -5,20 +5,20 @@ import "./confirmsubstitution.css";
 function ConfirmSubstitution({ handleNavigateAnim }) {
   const location = useLocation();
   const selectedClasses = location.state.selectedClasses;
-  // const dir = location.state.dir;
+  const dir = location?.state?.dir ?? "";
   const [anim, setAnim] = useState();
   const [highlightedPeriod, setHighlightedPeriod] = useState({});
   console.log(selectedClasses);
 
-  // useState(() => {
-  //   if (dir) {
-  //     setAnim(dir);
-  //   }
-  // });
+  useState(() => {
+    if (dir) {
+      setAnim(dir);
+    }
+  });
 
-  // useEffect(() => {
-  //   // console.log(selectedClasses);
-  // }, [selectedClasses]);
+  useEffect(() => {
+    // console.log(selectedClasses);
+  }, [selectedClasses]);
 
   useEffect(() => {
     console.log(highlightedPeriod);

@@ -8,7 +8,7 @@ function SimpleSubstution({ handleNavigateAnim }) {
   const location = useLocation();
   console.log(location.state.dir);
   const teacherID = location.state.teacherID;
-  const dir = location.state.dir;
+  const dir = location?.state?.dir ?? "";
   const [teacherTimetable, setTeacherTimetable] = useState();
   const SimpestRef = useRef(null);
   const [selectedClasses, setSelectedClasses] = useState({});
