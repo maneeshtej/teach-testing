@@ -19,6 +19,7 @@
   justify-content: center;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  z-index: 9;
 }
 
 .snst-window {
@@ -69,4 +70,14 @@
   border-radius: 5px;
   border: 1px solid var(--black-9);
   cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .snst-window {
+    width: 60%;
+  }
+
+  .snst-window-buttons {
+    width: 100%;
+  }
 }

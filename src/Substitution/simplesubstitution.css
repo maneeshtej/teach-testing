@@ -139,3 +139,54 @@
   scale: 1.05;
   transition: all 200ms linear;
 }
+
+@media (max-width: 500px) {
+
+  .simplest-content::before {
+    --size: 0;
+    content: "";
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--size);
+    height: var(--size);
+    background: radial-gradient(
+      circle closest-side,
+      rgba(37, 37, 37, 0.5),
+      transparent
+    );
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease;
+    pointer-events: none;
+    z-index: 1;
+    display: none;
+  }
+  
+  .simplest-content:hover::before {
+    --size: 500px;
+  }
+  .simplest-header {
+    height: 7vh;
+  }
+
+  .simplest-content-header {
+    flex-direction: column;
+    height: 7vh;
+  }
+
+  .simplest-content-header-right {
+    width: 100%;
+    min-height: 7vh;
+  }
+
+  .simplest-header-right-items {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .simplest-content-body {
+    padding: 10px;
+  }
+}

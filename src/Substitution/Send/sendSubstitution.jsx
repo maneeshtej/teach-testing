@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./sendsubstitution.css";
 import { prepareForSend } from "../../utils/convert";
 import { insertSubstitutions } from "../../utils/send";
+import { useAlert } from "../../components/AlertContent";
 
 function SendSubstitution({
   selectedClasses,
@@ -13,6 +14,7 @@ function SendSubstitution({
 
   const [convertedClasses, setConvertedClasses] = useState();
   const [response, setResponse] = useState("Confirm?");
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const fetchConvertedClasses = () => {
@@ -22,6 +24,7 @@ function SendSubstitution({
 
       if (error) {
         console.error("Error preparing data:", error);
+        showAlert("Error preparing data", "error");
         return;
       }
 
@@ -49,6 +52,8 @@ function SendSubstitution({
     if (response) {
       setResponse(response);
       console.log(response);
+
+      showAlert("Added Substitutions", "success");
 
       setTimeout(() => {
         handleNavigateAnim("/home", null, setAnim, "toRight");

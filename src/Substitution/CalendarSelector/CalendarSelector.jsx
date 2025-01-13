@@ -10,10 +10,11 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
   const localSelectedPeriods = JSON.parse(
     localStorage.getItem("selectedPeriods")
   );
-  //   const [clearAll, setclearAll] = clearall;
   const [selectedPeriods, setSelectedPeriods] = useState(
     localSelectedPeriods ? localSelectedPeriods : {}
   );
+
+  const [mobileSelectedDate, setMobileSelectedDate] = useState();
 
   useEffect(() => {
     if (!clearall) {
@@ -69,8 +70,8 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
     return dates;
   };
 
-  const moveDate = (direction) => {
-    const moveNumber = direction === "next" ? 7 : -7;
+  const moveDate = (direction, number) => {
+    const moveNumber = direction === "next" ? number : -number;
     const newDate = new Date(currentDate);
     newDate.setDate(currentDate.getDate() + moveNumber);
 
@@ -179,13 +180,13 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
           <div className="cs-header-right-items">
             <div
               className="cs-header-right-item"
-              onClick={() => moveDate("prev")}
+              onClick={() => moveDate("prev", 7)}
             >
               Previous
             </div>
             <div
               className="cs-header-right-item"
-              onClick={() => moveDate("next")}
+              onClick={() => moveDate("next", 7)}
             >
               Next
             </div>
@@ -196,14 +197,20 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
         <div className="cs-content-selector">
           <div className="cs-content-selector-dates">
             {weekDates.map((date, index) => (
-              <div key={index} className="cs-content-selector-date">
-                <div className="cs-selector-date-item">
+              <div
+                key={index}
+                className="cs-content-selector-date"
+                onClick={() => {
+                  setMobileSelectedDate(date.weekn);
+                }}
+              >
+                <div className="cs-selector-date-item day">
                   <strong>{date.day}</strong>
                 </div>
-                <div className="cs-selector-date-item">
+                <div className="cs-selector-date-item month">
                   {date.month.slice(0, 3)}
                 </div>
-                <div className="cs-selector-date-item">
+                <div className="cs-selector-date-item week">
                   {date.week.slice(0, 3)}
                 </div>
               </div>
@@ -266,6 +273,78 @@ function CalendarSelector({ timeTable, updateClasses, clearall, teacherId }) {
                 )}
               </div>
             ))}
+            <div className="cs-content-selector-period-mobile">
+              {mobileSelectedDate && convertedTimetable[mobileSelectedDate] ? (
+                Array.isArray(
+                  Object.keys(convertedTimetable[mobileSelectedDate])
+                ) &&
+                Object.keys(convertedTimetable[mobileSelectedDate]).length >
+                  0 ? (
+                  Object.keys(convertedTimetable[mobileSelectedDate]).map(
+                    (item, idx) => {
+                      const periodData =
+                        convertedTimetable[mobileSelectedDate][item] || null;
+                      // const isPeriodSelected = isSelected(date, periodData);
+                      console.log(weekDates);
+                      const selectedDate = weekDates.find(
+                        (date) => mobileSelectedDate == date.weekn
+                      );
+
+                      if (selectedDate) {
+                        console.log("Selected Date:", selectedDate);
+                      } else {
+                        console.log("No matching date found.");
+                      }
+
+                      const isPeriodSelected = isSelected(
+                        selectedDate,
+                        periodData
+                      );
+
+                      return (
+                        <div
+                          className={`cs-selector-period-item ${
+                            isPeriodSelected
+                              ? "cs-selector-period-item-anim"
+                              : ""
+                          }`}
+                          key={idx}
+                          onClick={() =>
+                            handlePeriodClick(selectedDate, periodData)
+                          }
+                          style={{
+                            backgroundColor: isPeriodSelected
+                              ? "rgb(0, 205, 137)"
+                              : "",
+                            color: isPeriodSelected ? "black" : "",
+                          }}
+                        >
+                          {periodData?.subject_name || "No subject"}
+                        </div>
+                      );
+                    }
+                  )
+                ) : (
+                  <div
+                    className="cs-selector-period-item"
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    No periods available
+                  </div>
+                )
+              ) : (
+                <div
+                  className="cs-selector-period-item"
+                  style={{
+                    flex: 1,
+                  }}
+                >
+                  Please select a valid date.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

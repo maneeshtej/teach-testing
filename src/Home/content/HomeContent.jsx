@@ -3,6 +3,9 @@ import { getTeacherSubstitutions } from "../../utils/fetch";
 import "./homecontent.css";
 import SubstitutionCard from "./components/SubstitutionCard";
 import { Route, useNavigate } from "react-router-dom";
+import { deleteSubstitutions } from "../../utils/delete";
+import { useAlert } from "../../components/AlertContent";
+import { useAnimNavigation } from "../../utils/Animation/NavigationContext";
 
 function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
   const teacherID = tID;
@@ -11,6 +14,12 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
   const [error, setError] = useState(null);
   const naviagate = useNavigate();
   const [filter, setFilter] = useState("sent");
+  const [selectedSubstitutions, setSelectedSubstitutions] = useState([]);
+  const [deleted, setDeleted] = useState(false);
+  const { showAlert } = useAlert();
+  const { navigateWithAnim } = useAnimNavigation();
+  const [mobileHeaderOptions, setMobileHeaderOptions] = useState(false);
+  // console.log(navigateWithAnim);
 
   useEffect(() => {
     if (filterParam === 1) {
@@ -84,10 +93,78 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
     }
   };
 
+  const handleSelectedSubstitutions = (item) => {
+    if (!item || !selectedSubstitutions) {
+      console.error("returning early");
+      return;
+    }
+
+    setSelectedSubstitutions((prevstate) => {
+      const tempArray = [...prevstate];
+
+      if (!tempArray) {
+        console.error("returning early");
+        return prevstate;
+      }
+
+      if (tempArray.includes(item)) {
+        tempArray.splice(tempArray.indexOf(item), 1);
+        return tempArray;
+      }
+
+      tempArray.push(item);
+      return tempArray;
+    });
+  };
+
+  useEffect(() => {
+    console.log(selectedSubstitutions);
+  }, [selectedSubstitutions]);
+
+  const handleDeleteSubstitutions = async () => {
+    if (
+      !selectedSubstitutions ||
+      selectedSubstitutions.length <= 0 ||
+      !teacherID
+    ) {
+      console.error("No selected substitutions or teacher ID is missing");
+      useAlert("TeacherID is missing", "error");
+      return;
+    }
+
+    const { response, data, error } = await deleteSubstitutions(
+      selectedSubstitutions
+    );
+
+    if (error) {
+      console.error("Error deleting substitutions:", error);
+      return;
+    }
+
+    console.log(data);
+
+    console.log("Deletion successful:", response);
+
+    if (response) {
+      setSelectedSubstitutions([]);
+      getTeacherSubstitutions(teacherID);
+      showAlert("Deletion Successfull", "success");
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
+    }
+  };
+
   return (
     <div className="content-wrapper">
       <div className="content-header">
-        <div className="content-header-left">
+        <div
+          className={`content-header-left ${
+            mobileHeaderOptions ?? mobileHeaderOptions
+              ? "content-header-switch"
+              : ""
+          }`}
+        >
           <div className="header-left-searchbox">
             <div className="header-left-search">
               <svg
@@ -108,10 +185,26 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
               <input></input>
             </div>
           </div>
+          <div
+            className="header-left-button"
+            onClick={() => {
+              setMobileHeaderOptions((prevState) => {
+                return !prevState;
+              });
+            }}
+          >
+            <span>{">"}</span>
+          </div>
         </div>
-        <div className="content-header-right">
+        <div
+          className={`content-header-right ${
+            mobileHeaderOptions ?? mobileHeaderOptions
+              ? "content-header-switch"
+              : ""
+          }`}
+        >
           <div className="header-right-items">
-            <div className="header-right-item">
+            {/* <div className="header-right-item">
               <svg
                 width="800px"
                 height="800px"
@@ -132,7 +225,7 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
                 </g>
               </svg>
               <span>Hide</span>
-            </div>
+            </div> */}
             <div className="header-right-item">
               <svg
                 width="800px"
@@ -169,7 +262,12 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
               </svg>
               <span>Edit</span>
             </div>
-            <div className="header-right-item">
+            <div
+              className="header-right-item"
+              onClick={() => {
+                handleDeleteSubstitutions();
+              }}
+            >
               <svg
                 width="800px"
                 height="800px"
@@ -204,6 +302,11 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
                   setAnim,
                   "toLeft"
                 );
+                navigateWithAnim(
+                  "/simplest",
+                  { teacherID: teacherID },
+                  "entry"
+                );
               }}
             >
               <svg
@@ -224,6 +327,16 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
               </svg>
               <span>New</span>
             </div>
+            <div
+              className="header-right-item mobile"
+              onClick={() => {
+                setMobileHeaderOptions((prevstate) => {
+                  return !prevstate;
+                });
+              }}
+            >
+              Close
+            </div>
           </div>
         </div>
       </div>
@@ -243,6 +356,8 @@ function HomeContent({ tID, tName, filterParam, handleNavigateAnim, setAnim }) {
                   index={false}
                   number={index}
                   key={index}
+                  handleSelectedSubstitutions={handleSelectedSubstitutions}
+                  selectedSubstitutions={selectedSubstitutions}
                 ></SubstitutionCard>
               );
             } else {

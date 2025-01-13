@@ -127,3 +127,67 @@
 .cs-selector-period-item-anim {
   animation: perioditemAnim 200ms ease-out;
 }
+
+@media (max-width: 500px) {
+
+  .cs-header-left {
+    display: none;
+  }
+
+  .cs-header-right-items {
+    width: 100%;
+  }
+
+  .cs-content {
+    padding: 10px;
+  }
+
+  .cs-content-selector-date {
+    flex-direction: column;
+    gap: 0px;
+    position: relative;
+    justify-content: start;
+    padding-top: 10px;
+  }
+
+  .cs-content-selector-dates {
+    flex: 2;
+  }
+
+  .cs-selector-date-item.month, .cs-selector-date-item.week {
+    position: absolute;
+    font-size: 15px;
+    bottom: 10px;
+  }
+
+  .cs-selector-date-item.month {
+    right: 20px;
+  }
+
+  .cs-selector-date-item.week {
+    left: 20px;
+  }
+
+  .cs-content-selector-periods {
+    flex: 4;
+  }
+
+  .cs-content-selector-period {
+    display: none;
+  }
+
+  .cs-content-selector-period-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-evenly; */
+    gap: 40px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .cs-selector-period-item {
+    max-width: 90%;
+    min-width: 90%;
+  }
+}

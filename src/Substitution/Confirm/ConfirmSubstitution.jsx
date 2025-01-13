@@ -208,16 +208,20 @@ function ConfirmSubstitution({ handleNavigateAnim }) {
             <div className="cst-content-header"></div>
             <div className="cst-content-items">
               <div
-                className="cst-content-item"
+                className="cst-content-item head"
                 style={{
                   backgroundColor: "rgb(20, 20, 20)",
                   height: "5vh",
                   borderBottom: "1px solid rgb(50, 50, 50)",
                 }}
               >
-                <div className="cst-content-item-element">{"Subject"}</div>
-                <div className="cst-content-item-element">{"Date"}</div>
-                <div className="cst-content-item-element">
+                <div className="cst-content-item-element subject head">
+                  {"Subject"}
+                </div>
+                <div className="cst-content-item-element date head">
+                  {"Date"}
+                </div>
+                <div className="cst-content-item-element dropdown">
                   <select
                     name="teachers"
                     style={{
@@ -259,10 +263,10 @@ function ConfirmSubstitution({ handleNavigateAnim }) {
                     )}
                   </select>
                 </div>
-                <div className="cst-content-item-element">
+                <div className="cst-content-item-element input">
                   <input placeholder="Input 2" />
                 </div>
-                <div className="cst-content-item-element">
+                <div className="cst-content-item-element checkbox">
                   <input
                     type="checkbox"
                     value={selectedIndexes.includes("index")}
@@ -281,13 +285,13 @@ function ConfirmSubstitution({ handleNavigateAnim }) {
                       key={item}
                       onClick={() => setHighlightedPeriod(curClass)}
                     >
-                      <div className="cst-content-item-element">
+                      <div className="cst-content-item-element subject">
                         {curClass.subject_name || "No Subject"}
                       </div>
-                      <div className="cst-content-item-element">
+                      <div className="cst-content-item-element date">
                         {curClass.date || "No Date"}
                       </div>
-                      <div className="cst-content-item-element">
+                      <div className="cst-content-item-element dropdown">
                         <select
                           name="teachers"
                           style={{
@@ -314,10 +318,10 @@ function ConfirmSubstitution({ handleNavigateAnim }) {
                           )}
                         </select>
                       </div>
-                      <div className="cst-content-item-element">
+                      <div className="cst-content-item-element input">
                         <input placeholder="Input 2" />
                       </div>
-                      <div className="cst-content-item-element">
+                      <div className="cst-content-item-element checkbox">
                         <input
                           type="checkbox"
                           checked={selectedIndexes.includes(item)}

@@ -17,14 +17,16 @@ function SimpleSubstution({ handleNavigateAnim }) {
   const [anim, setAnim] = useState();
 
   useEffect(() => {
-    if (dir) {
+    const isPageReload = performance.navigation.type === 1;
+    if (!isPageReload && dir) {
       setAnim(dir);
     }
 
-    setTimeout(() => {
-      // console.log("runnin");
+    const timer = setTimeout(() => {
       setAnim("");
     }, 300);
+
+    return () => clearTimeout(timer);
   }, [dir]);
 
   useEffect(() => {

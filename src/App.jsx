@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./AppRoutes.jsx";
 import "./App.css";
+import Alert from "./components/Alert.jsx";
 
 function App() {
   const [navigateAnim, setNavigateAnim] = useState(false);
@@ -21,6 +22,7 @@ function App() {
 
   return (
     <>
+      <Alert />
       <BrowserRouter>
         <AppRoutes toggleNavigateAnim={toggleNavigateAnim} />
       </BrowserRouter>

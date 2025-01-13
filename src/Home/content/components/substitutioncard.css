@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: row;
   overflow: hidden;
-  z-index: 2;
+  z-index: 1;
 }
 
 .subcard-wrapper-false {
@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: row;
   background-color: var(--black-3);
-  z-index: 2;
+  z-index: 1;
 }
 
 .subcard-wrapper-item {
@@ -48,4 +48,34 @@
 input[type="checkbox"] {
   background-color: #000000 !important;
   color: rgb(0, 0, 0);
+}
+
+.subcard-wrapper-false-mobile {
+  display: none;
+}
+
+.subcard-wrapper-item-mobile {
+  display: none;
+}
+
+.subcard-wrapper-select-mobile {
+  display: none;
+}
+
+.subcard-wrapper-mobile {
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .subcard-index, .subcard-date, .subcard-teacher, .subcard-status, .subcard-state {
+    display: none;
+  }
+
+  .subcard-wrapper, .subcard-wrapper-false {
+    height: 7vh;
+  }
+
+  .subcard-wrapper {
+    transform: translateX(50px);
+  }
 }

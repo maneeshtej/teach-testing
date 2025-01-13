@@ -1,0 +1,35 @@
+@keyframes alertAnim {
+    0% {
+        transform: translateY(-300px);
+    } 100% {
+        transform: translateY(0px);
+    }
+}
+
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: var(--black-17);
+    z-index: 1000;
+    background-color: var(--black-3);
+    border: 1px solid var(--black-7);
+    animation: alertAnim 200ms ease-in-out;
+    
+  }
+  
+  .alert-info {
+    box-shadow: 0px 0.5px 10px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  .alert-success {
+    box-shadow: 0px 0.5px 10px 8px  rgba(0, 205, 137, 0.2)
+  }
+  
+  .alert-error {
+    box-shadow: 0px 0.5px 10px 8px  rgba(205, 14, 0, 0.2)
+  }
+  

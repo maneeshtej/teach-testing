@@ -47,39 +47,41 @@ export const getTeacherSubstitutions = async (id) => {
       }
   
       const { data, error } = await supabase
-        .from('Substitution')
-        .select(`
-            *,
-            teacher:teacher_id(name),
-            sub_teacher:sub_teacher_id(name),
-            class:class_id(
-                subject_id,
-                subject:subject_id( subject_name )
-            )`
+        .from("Substitution")
+        .select(
+          `
+              *,
+              teacher:teacher_id(name),
+              sub_teacher:sub_teacher_id(name),
+              class:class_id(
+                  subject_id,
+                  subject:subject_id(subject_name)
+              )`
         )
         .or(`teacher_id.eq.${id},sub_teacher_id.eq.${id}`);
   
       if (error) {
         return { data: null, error: error.message || "Error fetching data" };
       }
-
-      const newData = []
-
-      data.forEach((item, index) => {
+  
+      const newData = [];
+  
+      data.forEach((item) => {
         const tempData = {
-                ...data[index],
-                subject_name: data[index].class.subject.subject_name,
-                subject_id: data[index].class.subject_id,
-                teacher_name: data[index].teacher.name,
-                sub_teacher_name: data[index].sub_teacher.name
-              }
-
-              delete tempData.class;
-              delete tempData.sub_teacher;
-              delete tempData.teacher;
-
-            newData.push(tempData);
-      })
+          ...item,
+          subject_name: item?.class?.subject?.subject_name || null,
+          subject_id: item?.class?.subject_id || null,
+          teacher_name: item?.teacher?.name || null,
+          sub_teacher_name: item?.sub_teacher?.name || null,
+        };
+  
+        // Clean up unused properties
+        delete tempData.class;
+        delete tempData.sub_teacher;
+        delete tempData.teacher;
+  
+        newData.push(tempData);
+      });
   
       return { data: newData, error: null };
     } catch (e) {
@@ -87,6 +89,7 @@ export const getTeacherSubstitutions = async (id) => {
       return { data: null, error: e.message || "Unexpected error" };
     }
   };
+  
 
 export const getTeacherName = async (id) => {
     try {

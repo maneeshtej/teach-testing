@@ -13,21 +13,27 @@ function Home({ handleNavigateAnim }) {
   const [teacherData, setTeacherData] = useState();
   const [teacherID, setTeacherID] = useState();
   const [teacherName, setTeacherName] = useState();
+  const [mobileFilterDropup, setMobileFilterDropup] = useState(false);
   const homeContentRef = useRef(null);
-  const [anim, setAnim] = useState(null);
+
   const location = useLocation();
   // console.log("Location State:", location.state);
 
   const dir = location?.state?.dir ?? "";
 
+  const [anim, setAnim] = useState(null);
+
   useEffect(() => {
-    if (dir) {
+    const isPageReload = performance.navigation.type === 1;
+    if (!isPageReload && dir) {
       setAnim(dir);
     }
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setAnim("");
     }, 300);
+
+    return () => clearTimeout(timer);
   }, [dir]);
 
   const handleMouseMove = (e) => {
@@ -80,8 +86,8 @@ function Home({ handleNavigateAnim }) {
       <section className="home-main">
         <div className="home-sidebar">
           <div className="home-sidebar-header">Teacher Substitution</div>
-          <div className="home-sidebar-items">
-            <div className="home-sidebar-item">
+          <div className="home-sidebar-items home-item-mobile">
+            <div className="home-sidebar-item one">
               <div className="sidebar-item-searchbox">
                 <div className="sidebar-item-search">
                   <svg
@@ -103,7 +109,7 @@ function Home({ handleNavigateAnim }) {
                 </div>
               </div>
             </div>
-            <div className="home-sidebar-item">
+            <div className="home-sidebar-item two">
               <div className="sidebar-item-filters">
                 <div
                   className={`sidebar-item-filter`}
@@ -263,7 +269,8 @@ function Home({ handleNavigateAnim }) {
               </div>
             </div>
           </div>
-          <div className="home-content body">
+
+          <div className="home-content-body">
             <HomeContent
               tName={teacherName}
               tID={teacherID}
