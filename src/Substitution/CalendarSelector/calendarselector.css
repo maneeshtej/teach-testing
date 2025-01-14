@@ -82,7 +82,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .cs-content-selector-period {
@@ -126,6 +126,10 @@
 
 .cs-selector-period-item-anim {
   animation: perioditemAnim 200ms ease-out;
+}
+
+.cs-content-selector-period-mobile {
+  display: none;
 }
 
 @media (max-width: 500px) {

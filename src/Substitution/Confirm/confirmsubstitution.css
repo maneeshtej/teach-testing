@@ -114,23 +114,18 @@
 
 @media (max-width: 500px) {
 
+  .cst-header {
+    display: flex;
+    padding: 0px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cst-content {
+    position: static
+  }
+
   .cst-content::before {
-    --size: 0;
-    content: "";
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: var(--size);
-    height: var(--size);
-    background: radial-gradient(
-      circle closest-side,
-      rgba(34, 33, 33, 0.5),
-      transparent
-    );
-    transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease;
-    pointer-events: none;
-    z-index: 1;
     display: none;
   }
   

@@ -1,3 +1,7 @@
+@media (min-width:1240px) {
+  
+}
+
 .home-main {
   height: 100vh;
   background-color: var(--black-2);
@@ -153,7 +157,8 @@
   width: 85vw;
   position: relative;
   background-color: var(--black-2);
-  overflow: scroll; /* Ensures the gradient doesn't spill outside */
+  overflow: scroll;
+  overflow-x: hidden; 
 }
 
 .home-content::before {
@@ -240,11 +245,48 @@
 
 @media (max-width: 500px) {
 
+  .home-content {
+    position: static;
+  }
+
+  .home-content::before {
+    --size: 0; 
+    content: "";
+    position: absolute;
+    left: var(--x); 
+    top: var(--y); 
+    width: var(--size); 
+    height: var(--size);
+    background: radial-gradient(
+      circle closest-side,
+      rgba(26, 26, 26, 0.5), 
+      transparent 
+    );
+    transform: translate(-50%, -50%); 
+    transition: width 0.2s ease, height 0.2s ease; 
+    pointer-events: none; 
+    z-index: 1;
+    display: none;
+  }
+  
+  .home-content:hover::before {
+    --size: 500px; 
+  }
+
+
+  .home-content {
+    width: 85vw;
+    position: static;
+    background-color: var(--black-2);
+    overflow: scroll; 
+    overflow-x: hidden;
+  }
+
  
 
   .home-sidebar {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     z-index: 4;
     height: 7vh;
     width: 100%;

@@ -142,6 +142,11 @@
 
 @media (max-width: 500px) {
 
+  .simplest-content {
+    position: static;
+    height: 100%;
+  }
+
   .simplest-content::before {
     --size: 0;
     content: "";
@@ -166,7 +171,12 @@
     --size: 500px;
   }
   .simplest-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
     height: 7vh;
+    max-width: 100%;
   }
 
   .simplest-content-header {

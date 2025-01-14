@@ -67,6 +67,10 @@ input[type="checkbox"] {
 }
 
 @media (max-width: 500px) {
+
+  .subcard-wrapper {
+    position: static;
+  }
   .subcard-index, .subcard-date, .subcard-teacher, .subcard-status, .subcard-state {
     display: none;
   }
