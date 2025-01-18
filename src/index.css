@@ -17,6 +17,13 @@
   --main-green-dark: rgb(1, 147, 99);
 
   background-color: var(--black-3);
+
+  --darkmode-text: rgb(170, 170, 170);
+  --darkmode-margin: rgb(60, 60, 60);
+  --darkmode-background-light: rgb(40, 40, 40);
+  --darkmode-background-dark: rgb(30, 30, 30);
+
+  --mobile-fontsize-small: 2.5vw;
 }
 
 .body {

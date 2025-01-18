@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getTeacherSubstitutions } from "../../utils/fetch";
 import "./homecontent.css";
+import "./mobileHomeContent.css";
 import SubstitutionCard from "./components/SubstitutionCard";
 import { Route, useNavigate } from "react-router-dom";
 import { deleteSubstitutions } from "../../utils/delete";

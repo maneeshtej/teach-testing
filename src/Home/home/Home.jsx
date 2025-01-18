@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { checkSession, handleLogOut } from "../../Login/login.js";
 import { getTeacherDetails } from "../../utils/fetch.js";
 import "./home.css";
+import "./homeMobile.css";
 import HomeContent from "../content/HomeContent.jsx";
 
 function Home({ handleNavigateAnim }) {

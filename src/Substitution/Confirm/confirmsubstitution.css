@@ -21,6 +21,9 @@
   flex: 1;
   display: flex;
   flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  overflow: scroll;
 }
 
 .cst-sidebar {
@@ -79,12 +82,13 @@
   padding-right: 40px;
   gap: 20px;
   z-index: 2;
+  overflow: scroll;
 }
 
 .cst-content-item {
   display: flex;
   width: 100%;
-  height: 10vh;
+  min-height: 10vh;
   border: 1px solid var(--black-5);
   background-color: var(--black-3);
   align-items: center;
@@ -112,96 +116,3 @@
   cursor: pointer;
 }
 
-@media (max-width: 500px) {
-
-  .cst-header {
-    display: flex;
-    padding: 0px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cst-content {
-    position: static
-  }
-
-  .cst-content::before {
-    display: none;
-  }
-  
-  .cst-content:hover::before {
-    --size: 500px;
-  }
-
-  .cst-wrapper {
-    overflow: scroll;
-  }
-  .cst-sidebar {
-    display: none;
-  }
-
-  .cst-content-items{
-    overflow: hidden;
-  }
-
-  .cst-content-item {
-    flex-direction: column;
-    position: relative;
-  }
-
-  .cst-content-item.head {
-    height: 50px;
-  }
-
-  .cst-content-item-element.subject,
-   .cst-content-item-element.date,
-    .cst-content-item-element.dropdown,
-    .cst-content-item-element.input,
-    .cst-content-item-element.checkbox {
-    position: absolute;
-  }
-
-  .cst-content-item-element.subject {
-    top: 10px;
-    left: 20px;
-  }
-
-  .cst-content-item-element.date {
-    top: 10px;
-    right: 20px;
-  }
-
-  .cst-content-item-element.dropdown {
-    top: 50px;
-    left: 20px;
-    width: 300px;
-  }
-
-  .cst-content-item.head > .cst-content-item-element.dropdown
-  {
-    top: 10px;
-  }
-
-  .cst-content-item-element.dropdown > select {
-    background-color: transparent;
-    color: var(--black-17);
-    border-radius: 5px;
-    padding: 5px;
-    width: 300px;
-  }
-
-  .cst-content-item-element.checkbox {
-    top: 50px;
-    right: 20px;
-  }
-
-  .cst-content-item.head > .cst-content-item-element.checkbox {
-    top: 10px;
-  }
-
-  .cst-content-item-element.input,
-  .cst-content-item-element.head {
-    display: none;
-  }
-
-}

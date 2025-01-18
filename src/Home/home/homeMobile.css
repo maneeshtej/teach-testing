@@ -1,0 +1,116 @@
+@media (max-width: 500px) {
+
+    .home-main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        max-height: 100vh;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .home-sidebar {
+        display: flex;
+        flex-direction: row;
+        height: 8vh;
+        border-top: 1px solid var(--darkmode-margin);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        background-color: var( --darkmode-background-dark);
+    }
+
+    .home-sidebar-header {
+        display: none;
+    }
+
+    .home-sidebar-footer {
+        display: none;
+    }
+
+    .home-sidebar-items {
+        display: flex;
+        width: 100%;
+    }
+
+    .home-sidebar-item.one {
+        display: none;
+    }
+
+    .home-sidebar-item.two {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-item-filters {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-evenly
+    }
+
+    .sidebar-item-filter {
+        display: flex;
+        height: 80%;
+        width: 15vw;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-item-filter > h3 {
+        font-size: 2.5vw;
+        font-weight: lighter;
+        color: var(--darkmode-text);
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+    }
+
+
+
+    .sidebar-item-filter > svg {
+        width: 5vw;
+        height: 4vh;
+        border: 0px;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .home-content {
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+    }
+
+    .home-content-header {
+        display: flex;
+        min-height: 6vh;
+        border-bottom: 1px solid var(--darkmode-margin);
+    }
+
+    .home-content-header-left {
+        flex: 8;
+        display: flex;
+        align-items: center;
+    }
+
+    .home-content-header-last {
+        flex: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid var(--darkmode-margin);
+    }
+
+    .home-content-header-last-hover {
+        font-size: var(--mobile-fontsize-small);
+        display: none;
+        color: var(--darkmode-text);
+    }
+
+}

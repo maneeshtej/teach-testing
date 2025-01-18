@@ -38,7 +38,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
 }
 
 .simplest-content::before {
@@ -198,5 +197,10 @@
 
   .simplest-content-body {
     padding: 10px;
+  }
+
+  .simplest-content-footer {
+    position: absolute;
+    bottom: 0;
   }
 }

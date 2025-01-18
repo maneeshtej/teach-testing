@@ -166,10 +166,12 @@
 
   .cs-selector-date-item.month {
     right: 20px;
+    font-size: var(--mobile-fontsize-small);
   }
 
   .cs-selector-date-item.week {
     left: 20px;
+    font-size: var(--mobile-fontsize-small);
   }
 
   .cs-content-selector-periods {
