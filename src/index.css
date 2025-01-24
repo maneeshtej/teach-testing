@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
 
 :root {
   --black-1: rgb(10, 10, 10);
@@ -13,6 +15,7 @@
   --black-13: rgb(130, 130, 130);
   --black-16: rgb(160, 160, 160);
   --black-17: rgb(170, 170, 170);
+  --black-23: rgb(230, 230, 230);
   --main-green: rgb(0, 205, 137);
   --main-green-dark: rgb(1, 147, 99);
 
@@ -42,3 +45,46 @@ h2 {
   margin: 0px;
   border: 0px;
 }
+
+.pb-green {
+  color: var(--black-1);
+  background-color: var(--main-green);
+  padding: 6px;
+  padding-left: 13px;
+  padding-right: 13px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 200ms ease-in-out;
+}
+
+/* .pb-green:hover {
+  transform: translateY(-5px);
+  background-color: var(--main-green-dark);
+  color: var(--black-23);
+} */
+
+.pb{
+  color: var(--black-17);
+  background-color: var(--black-5);
+  padding: 6px;
+  padding-left: 13px;
+  padding-right: 13px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid var(--black-7);
+  transition: all 200ms ease-in-out;
+}
+
+.header {
+  @apply fixed bottom-0 md:left-0 
+  border-t-1 border-[rgb(70,70,70)] md:border-t-0 md:border-r-1
+  h-[7vh] w-[100%] md:h-[100%] md:w-[100px] 2xl:w-[15vw]
+  flex flex-row justify-center items-center
+}
+
+/* .pb:hover{
+  transform: translateY(-5px);
+  background-color: var(--black-);
+} */

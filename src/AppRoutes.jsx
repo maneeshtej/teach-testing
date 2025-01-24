@@ -8,6 +8,7 @@ import SimpleSubstution from "./Substitution/SimpleSubstution.jsx";
 import ConfirmSubstitution from "./Substitution/Confirm/ConfirmSubstitution.jsx";
 import "./approutes.css";
 import { NavigationProvider } from "./utils/Animation/NavigationContext.jsx";
+import Testfile from "./Test/testfile.jsx";
 
 function AppRoutes({ toggleNavigateAnim }) {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ function AppRoutes({ toggleNavigateAnim }) {
               </ProtectedRoute>
             }
           />
+          <Route path="/test" element={<Testfile />}></Route>
           <Route
             path="/simplest"
             element={

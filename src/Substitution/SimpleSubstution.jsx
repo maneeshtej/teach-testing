@@ -6,8 +6,8 @@ import CalendarSelector from "./CalendarSelector/CalendarSelector";
 
 function SimpleSubstution({ handleNavigateAnim }) {
   const location = useLocation();
-  // console.log(location.state.dir);
-  const teacherID = location.state.teacherID;
+  const teacherID =
+    location.state.teacherID ?? localStorage.getItem("teacherID") ?? null;
   const dir = location?.state?.dir ?? "";
   const [teacherTimetable, setTeacherTimetable] = useState();
   const SimpestRef = useRef(null);
@@ -32,6 +32,8 @@ function SimpleSubstution({ handleNavigateAnim }) {
   useEffect(() => {
     if (!teacherID) {
       console.error("Teacher not not recieved");
+    } else {
+      localStorage.setItem("teacherID", teacherID);
     }
   }, []);
 
